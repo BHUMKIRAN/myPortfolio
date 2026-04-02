@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --primary: #e91e63;
+  --primary-dark: #c2185b;
+
+  --bg: #ecf0f3;
+  --surface: #ffffff;
+
+  --text-primary: #1a1a1a;
+  --text-muted: #777777;
+
+  --shadow-neo:
+    6px 6px 12px rgba(0, 0, 0, 0.07), -4px -4px 10px rgba(255, 255, 255, 0.9);
+  --shadow-soft:
+    8px 8px 16px rgba(0, 0, 0, 0.07), -4px -4px 12px rgba(255, 255, 255, 0.9);
+  --shadow-primary: 4px 4px 10px rgba(233, 30, 99, 0.35);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --bg: #0e0e0e;
+    --surface: #151515;
+
+    --text-primary: #ededed;
+    --text-muted: #a3a3a3;
+
+    --shadow-neo:
+      6px 6px 12px rgba(0, 0, 0, 0.55), -4px -4px 10px rgba(255, 255, 255, 0.06);
+    --shadow-soft:
+      8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 12px rgba(255, 255, 255, 0.06);
+    --shadow-primary: 4px 4px 10px rgba(233, 30, 99, 0.35);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      .btn-neumorphic:active {
+        box-shadow:
+          inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+          inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--bg);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.btn-neumorphic {
+  /* Use your variable so it blends with the page */
+  background: var(--bg);
+  color: var(--primary);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+
+  /* Use your neo shadow variable */
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.07),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* Hover: Subtle lift or scale */
+.btn-neumorphic:hover {
+  transform: translateY(-2px) scale(1.02);
+  color: #fff;
+  box-shadow:
+    var(--shadow-soft),
+    0 8px 20px rgba(0, 0, 0, 0.08);
+
+  background: linear-gradient(
+    120deg,
+    var(--primary),
+    var(--primary-dark),
+    var(--primary),
+    var(--primary-dark),
+    var(--primary)
+  );
+
+  background-size: 300% 300%;
+  animation: btnGradient 3s ease-in-out infinite;
+}
+
+/* Active: The "Pressed" Inset Effect */
+.btn-neumorphic:active {
+  transform: translateY(1px);
+  /* We manually define inset here to match your specific rgba values */
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.07),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+@keyframes btnGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
