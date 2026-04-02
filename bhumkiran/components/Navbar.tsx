@@ -6,22 +6,23 @@ import Link from 'next/link';
 
 const Navbar = () => {
   const navLinks = [
-    { name: 'HOME', href: '#' },
-    { name: 'FEATURES', href: '#' },
-    { name: 'PORTFOLIO', href: '#' },
-    { name: 'RESUME', href: '#' },
+    
+    { name: 'FEATURES', href: '/#feature' },
+    { name: 'PORTFOLIO', href: '/#portfolio' },
+    { name: 'RESUME', href: '/#resume' },
     { name: 'CLIENTS', href: '/client' },
     { name: 'PRICING', href: '/pricing' },
     { name: 'BLOG', href: '/blog' },
-    { name: 'CONTACT', href: '/contact' },
+   
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-[var(--bg)] border-b border-[#dce1e4] w-full  px-10 py-5 z-[9999]">
+    <nav className="fixed top-0 z-50 bg-[var(--bg)] border-b border-[#dce1e4] w-full  px-10 py-5 z-[9999]">
       <div className="mx-auto flex items-center justify-between">
         
         {/* LEFT: Logo & Avatar */}
-        <div className="flex items-center gap-3 shrink-0">
+        <Link href="/" className="flex items-center gap-3 shrink-0"
+        >
           <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-[#dce1e4] shadow-[var(--shadow-neo)]">
             <Image
               src="/profile.jpeg" 
@@ -33,7 +34,7 @@ const Navbar = () => {
           <span className="text-xl font-bold tracking-widest text-[var(--text-primary)]">
             BHUM
           </span>
-        </div>
+        </Link>
 
         {/* CENTER: Navigation Links (Always Flex, no breakpoints) */}
         <div className="flex items-center gap-10 px-4">
@@ -51,7 +52,7 @@ const Navbar = () => {
         {/* RIGHT: CTA Button (Always Visible) */}
         <div className="shrink-0">
           <button className="btn btn-neumorphic whitespace-nowrap">
-            BUY NOW
+            <Link href="/contact">Contact Me</Link>
           </button>
         </div>
       </div>

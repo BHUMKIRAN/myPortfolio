@@ -68,7 +68,7 @@ const MyPortfolio: React.FC = () => {
     };
 
     return (
-        <section className="py-20 px-6 bg-[var(--bg)]">
+        <section id="portfolio" className="py-20 px-6 bg-[var(--bg)]">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-16">
@@ -85,9 +85,9 @@ const MyPortfolio: React.FC = () => {
                     {projectsData.map((project, index) => (
                         <div
                             key={index}
-                            className="group p-6 transition-all duration-300 ease-in-out cursor-pointer"
+                            className="group bg-[var(--surface)]  p-6 transition-all duration-300 ease-in-out cursor-pointer"
                             style={{
-                                background: "var(--bg)",
+                               
                                 borderRadius: "var(--radius-lg)",
                                 boxShadow: "var(--shadow-neo)",
                             }}

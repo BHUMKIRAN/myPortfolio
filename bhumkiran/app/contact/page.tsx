@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 const CONTACT_TITLE = "Contact Me";
 const TAGLINE = "Get In Touch";
-const PHONE = "+977 986-1234567";
+const PHONE = "+977 9845257185";
 const EMAIL = "kiran.khatri.787@gmail.com";
 
 const ContactPage = () => {
@@ -58,7 +58,7 @@ const ContactPage = () => {
         <main style={{ background: 'var(--bg)', minHeight: '100vh' }}>
             <Navbar />
             
-            <div className='max-w-6xl mx-auto py-20 px-6'>
+            <div className='max-w-6xl mx-auto py-30 px-6'>
                 {/* Header Section */}
                 <div className="text-center mb-16">
                     <p className="text-sm font-bold uppercase tracking-[4px] mb-2" style={{ color: 'var(--primary)' }}>{TAGLINE}</p>
@@ -72,9 +72,9 @@ const ContactPage = () => {
                          style={{ background: 'var(--bg)', boxShadow: 'var(--shadow-neo)' }}>
                         <div className="rounded-xl overflow-hidden mb-6 shadow-inner border-4 border-white/10">
                             <img 
-                                src="/contact-hero.jpg" 
+                                src="/profile.jpeg" 
                                 alt="Contact" 
-                                className="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-500" 
+                                className="w-full h-48 object-cover  transition-all duration-500" 
                             />
                         </div>
                         <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Bhum Bikram Silwal</h2>
@@ -165,13 +165,13 @@ const ContactPage = () => {
 
             <style jsx>{`
                 .neumorphic-input {
-                    background: var(--bg);
+                    background: white;
                     border: none;
                     border-radius: var(--radius-md);
                     padding: 1rem;
                     color: var(--text-primary);
-                    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.07), 
-                                inset -4px -4px 8px rgba(255,255,255,0.9);
+                    box-shadow: inset 4px 4px 4px rgba(0,0,0,0.07), 
+                                inset -4px -4px 4px rgba(255,255,255,0.9);
                     outline: none;
                     transition: all 0.2s ease;
                 }

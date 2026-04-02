@@ -29,7 +29,7 @@ const Resume: React.FC = () => {
     const rightCol = timelineData[activeTab].filter((_, i) => i % 2 !== 0);
 
     return (
-        <section className="py-20 px-6" style={{ background: 'var(--bg)' }}>
+        <section id="resume" className="py-20 px-6" style={{ background: 'var(--bg)' }}>
             <div className="max-w-6xl mx-auto">
 
                 {/* Header */}
@@ -67,7 +67,7 @@ const Resume: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20">
 
                     {[leftCol, rightCol].map((columnItems, colIdx) => (
-                        <div key={colIdx} className="relative">
+                        <div key={colIdx} className="relative ">
 
                             {/* Column Heading (Matches Image) */}
                             <div className="mb-12 ml-10">
@@ -99,9 +99,9 @@ const Resume: React.FC = () => {
 
                                     {/* The Content Card */}
                                     <div
-                                        className="p-8 md:p-10 transition-all duration-300 hover:shadow-soft"
+                                        className="p-8 bg-[var(--surface)] md:p-10 transition-all duration-300 hover:shadow-soft"
                                         style={{
-                                            background: 'var(--bg)',
+                                            
                                             borderRadius: 'var(--radius-lg)',
                                             boxShadow: 'var(--shadow-neo)',
                                         }}

@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // ====== Email to your own inbox ======
+
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; color: #333;">
         <h2 style="color: #415440;">New Client Inquiry Received</h2>
@@ -41,9 +41,7 @@ export async function POST(request: Request) {
             <td style="padding: 8px; font-weight: bold;">Message:</td>
             <td style="padding: 8px;">${message}</td>
           </tr>
-        </table>
-        <p style="margin-top: 20px;">Thank you for visiting our website. We will get back to you shortly!</p>
-        <p style="color: #b07818; font-weight: bold;">– Your Company Team</p>
+      </table>
       </div>
     `;
 
