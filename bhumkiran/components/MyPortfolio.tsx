@@ -70,6 +70,7 @@ const MyPortfolio: React.FC = () => {
     return (
         <section id="portfolio" className="py-20 px-6 bg-[var(--bg)]">
             <div className="max-w-6xl mx-auto">
+                
                 {/* Header */}
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-[var(--text-primary)]">

@@ -5,6 +5,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Users } from "lucide-react";
 import Link from "next/link";
+import EasterEggTerminal from "@/components/tools/EsterEgg";
+import InteractiveAvatar from "@/components/tools/Avatar";
+import SnakeGame from "@/components/tools/SnakeGame";
+import TicTacToe from "@/components/tools/Tictak";
+import RockPaperScissors from "@/components/tools/TicTac";
 
 const ClientsPage = () => {
     return (
@@ -21,6 +26,7 @@ const ClientsPage = () => {
                 <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-4">
                     No Clients Yet
                 </h1>
+             
 
               
 

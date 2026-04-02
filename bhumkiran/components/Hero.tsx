@@ -9,6 +9,8 @@ import {
   SiJavascript, SiTypescript, SiMysql,
   SiGraphql, SiSocketdotio, SiTailwindcss
 } from "react-icons/si";
+import InteractiveTerminal from "./tools/Terminal";
+import CodePlayground from "./tools/PlayGround";
 
 const roles = ["Developer.", " Coder.", "Designer."];
 
@@ -56,7 +58,9 @@ const HeroSection = () => {
         <div className="w-full max-w-2xl">
           <p className="text-xs font-semibold tracking-[0.3em] text-[var(--text-muted)]">
             WELCOME TO MY WORLD
+           
           </p>
+          
 
           <h1 className="mt-4 text-4xl font-bold leading-tight text-[var(--text-primary)] md:text-5xl lg:text-6xl">
             Hi, I&apos;m{" "}
