@@ -79,7 +79,7 @@ const HeroSection = () => {
 
           <div className="mt-10 flex flex-wrap gap-4">
             <a href="#portfolio" className="btn btn-neumorphic">View Work</a>
-            <a href="#contact" className="btn btn-neumorphic text-[var(--text-primary)]">Contact Me</a>
+            <a href="/contact" className="btn btn-neumorphic text-[var(--text-primary)]">Contact Me</a>
           </div>
 
           <div className="mt-12 flex flex-col md:flex-row gap-12">

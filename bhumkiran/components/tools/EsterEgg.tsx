@@ -239,7 +239,7 @@ export default function EasterEggTerminal() {
   const handleGhostDragEnd = () => { addHistory("ghost", "Ghost interaction complete."); speakNepali("तपाईंले भूतलाई तान्नुभयो। धन्यवाद।"); };
 
   return (
-    <motion.div animate={controls} className={`min-h-screen flex items-center justify-center p-2 transition-colors duration-300 ${theme === "dark" ? "bg-gray-900" : "bg-amber-50"}`}>
+    <motion.div animate={controls} className={`h-[350px] rounded-xl w-[400px] flex items-center justify-center p-2 transition-colors duration-300 ${theme === "dark" ? "bg-gray-900" : "bg-amber-50"}`}>
       <MatrixRain active={matrix} />
       <RainEffect active={rain} />
       <Ghost onDragEnd={handleGhostDragEnd} />
@@ -261,7 +261,7 @@ export default function EasterEggTerminal() {
         </div>
 
         {/* Output */}
-        <div ref={terminalRef} className="h-64 overflow-y-auto p-1 space-y-1 text-sm">
+        <div ref={terminalRef} className="h-50 overflow-y-auto p-1 space-y-1 text-sm">
           {history.map((line, idx) => <div key={idx} className="whitespace-pre-wrap">{line}</div>)}
         </div>
 

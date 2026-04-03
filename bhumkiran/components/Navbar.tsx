@@ -11,8 +11,6 @@ const Navbar = () => {
     { name: 'FEATURES', href: '/#feature' },
     { name: 'PORTFOLIO', href: '/#portfolio' },
     { name: 'RESUME', href: '/#resume' },
-    { name: 'CLIENTS', href: '/client' },
-    { name: 'PRICING', href: '/pricing' },
     { name: 'BLOG', href: '/blog' },
     
    
@@ -52,11 +50,7 @@ const Navbar = () => {
         </div>
 
         {/* RIGHT: CTA Button (Always Visible) */}
-        <div className="shrink-0">
-          <button className="btn btn-neumorphic whitespace-nowrap">
-            <Link href="/contact">Contact Me</Link>
-          </button>
-        </div>
+       
       </div>
     </nav>
   );
