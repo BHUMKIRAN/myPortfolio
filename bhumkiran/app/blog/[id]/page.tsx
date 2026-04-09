@@ -32,7 +32,7 @@ const cardsData = [
 
 const BlogDetail = () => {
     const params = useParams();
-    const [blog, setBlog] = useState(null);
+    const [blog, setBlog] = useState<typeof cardsData[0] | null>(null);
 
     useEffect(() => {
         if (!params?.id) return;

@@ -5,7 +5,7 @@ import { ArrowBigRight, Clock } from 'lucide-react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 const Blog = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<typeof cardsData[0] | null>(null);
     const title = "MY BLOG";
     const subtitle = "VIEW MY BLOGS";
     const router = useRouter();
@@ -33,7 +33,7 @@ const Blog = () => {
             paragraph: "Discover techniques to optimize React applications, reduce bundle size, and improve load times for better user experience."
         }
     ];
-    const handleClick = (card) => {
+    const handleClick = (card: typeof cardsData[0]) => {
         setData(card);
 
         const id = card.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
