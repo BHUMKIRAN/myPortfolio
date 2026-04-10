@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, subject, message } = await request.json();
+    const { name, email, phone, message } = await request.json();
 
     // Create transporter
     const transporter = nodemailer.createTransport({
@@ -34,10 +34,6 @@ export async function POST(request: Request) {
             <td style="padding: 8px;">${phone}</td>
           </tr>
           <tr>
-            <td style="padding: 8px; font-weight: bold;">Subject:</td>
-            <td style="padding: 8px;">${subject}</td>
-          </tr>
-          <tr>
             <td style="padding: 8px; font-weight: bold;">Message:</td>
             <td style="padding: 8px;">${message}</td>
           </tr>
@@ -59,7 +55,6 @@ export async function POST(request: Request) {
         <p>I have received your message and appreciate you contacting me.</p>
         <p><strong>Summary of your submission:</strong></p>
         <ul>
-          <li><strong>Subject:</strong> ${subject}</li>
           <li><strong>Message:</strong> ${message}</li>
         </ul>
         <p>I will review your message and get back to you as soon as possible.</p>

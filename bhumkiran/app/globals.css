@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-geist-sans:
+    "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-geist-mono:
+    "SFMono-Regular", "Consolas", "Liberation Mono", "Courier New", monospace;
 
   --primary: #e91e63;
   --primary-dark: #c2185b;

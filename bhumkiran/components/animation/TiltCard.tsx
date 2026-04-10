@@ -8,6 +8,7 @@ interface TiltCardProps {
   className?: string;
   intensity?: number; // control tilt strength
   scale?: number; // hover zoom
+  style?: React.CSSProperties;
 }
 
 const TiltCard = ({
@@ -15,6 +16,7 @@ const TiltCard = ({
   className = "",
   intensity = 12,
   scale = 1.05,
+  style,
 }: TiltCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState("");
@@ -49,7 +51,7 @@ const TiltCard = ({
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{ transform }}
+        style={{ ...style, transform }}
         className={`transition-transform duration-200 ease-out will-change-transform ${className}`}
       >
         {children}

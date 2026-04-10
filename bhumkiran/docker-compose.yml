@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # These pull directly from your machine's .env file or shell
+        CONTENTFUL_SPACE_ID: ${CONTENTFUL_SPACE_ID}
+        CONTENTFUL_ACCESS_TOKEN: ${CONTENTFUL_ACCESS_TOKEN}
+        CONTENTFUL_ENVIRONMENT: ${CONTENTFUL_ENVIRONMENT:-master}
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    # Optional: ensure it restarts if the server crashes
+    restart: always
