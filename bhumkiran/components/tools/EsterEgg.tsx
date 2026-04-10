@@ -33,7 +33,8 @@ function MatrixRain({ active }: { active: boolean }) {
       for (let i = 0; i < drops.length; i++) {
         const char = String.fromCharCode(33 + Math.random() * 94);
         ctx.fillText(char, i * 16, drops[i] * 16);
-        if (drops[i] * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        if (drops[i] * 16 > canvas.height && Math.random() > 0.975)
+          drops[i] = 0;
         drops[i]++;
       }
       animId = requestAnimationFrame(draw);
@@ -47,7 +48,12 @@ function MatrixRain({ active }: { active: boolean }) {
   }, [active]);
 
   if (!active) return null;
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-30 opacity-40" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full pointer-events-none z-30 opacity-40"
+    />
+  );
 }
 
 // ======== Rain Effect ========
@@ -105,7 +111,12 @@ function RainEffect({ active }: { active: boolean }) {
   }, [active]);
 
   if (!active) return null;
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-30 opacity-30" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full pointer-events-none z-30 opacity-30"
+    />
+  );
 }
 
 // ======== Ghost ========
@@ -130,7 +141,11 @@ function Ghost({ onDragEnd }: { onDragEnd?: () => void }) {
 
 // ======== Main Terminal ========
 export default function EasterEggTerminal() {
-  const [history, setHistory] = useState<string[]>(["Welcome to Kiran Terminal.", "Type 'help' for commands.", ""]);
+  const [history, setHistory] = useState<string[]>([
+    "Welcome to Kiran Terminal.",
+    "Type 'help' for commands.",
+    "",
+  ]);
   const [input, setInput] = useState("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [rain, setRain] = useState(false);
@@ -143,7 +158,10 @@ export default function EasterEggTerminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const controls = useAnimation();
 
-  useEffect(() => terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight), [history]);
+  useEffect(
+    () => terminalRef.current?.scrollTo(0, terminalRef.current.scrollHeight),
+    [history],
+  );
   useEffect(() => inputRef.current?.focus(), []);
 
   const speakNepali = (text: string) => {
@@ -151,7 +169,9 @@ export default function EasterEggTerminal() {
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
       const voices = window.speechSynthesis.getVoices();
-      const nepaliVoice = voices.find((v) => v.lang.includes("ne") || v.lang.includes("hi"));
+      const nepaliVoice = voices.find(
+        (v) => v.lang.includes("ne") || v.lang.includes("hi"),
+      );
       if (nepaliVoice) utter.voice = nepaliVoice;
       utter.lang = "ne-NP";
       utter.rate = 0.9;
@@ -159,9 +179,17 @@ export default function EasterEggTerminal() {
     }
   };
 
-  const triggerShake = () => controls.start({ x: [-5, 5, -5, 5, 0], transition: { duration: 0.3 } });
-  const triggerConfetti = () => confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 }, colors: ["#ff0000", "#00ff00", "#0000ff"] });
-  const addHistory = (cmd: string, res: string) => setHistory((prev) => [...prev, `> ${cmd}`, res, ""]);
+  const triggerShake = () =>
+    controls.start({ x: [-5, 5, -5, 5, 0], transition: { duration: 0.3 } });
+  const triggerConfetti = () =>
+    confetti({
+      particleCount: 100,
+      spread: 60,
+      origin: { y: 0.6 },
+      colors: ["#ff0000", "#00ff00", "#0000ff"],
+    });
+  const addHistory = (cmd: string, res: string) =>
+    setHistory((prev) => [...prev, `> ${cmd}`, res, ""]);
 
   const handleCommand = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
@@ -173,11 +201,13 @@ export default function EasterEggTerminal() {
 
     switch (cmd) {
       case "help":
-        result = "Commands: about, rain, matrix, dance, luck, hack, clear, theme, ghost, secret, date, ping, echo, say [msg]";
+        result =
+          "Commands: about, rain, matrix, dance, luck, hack, clear, theme, ghost, secret, date, ping, echo, say [msg]";
         speakText = "सहायता आदेशहरू";
         break;
       case "about":
-        result = "Kiran is a full-stack developer passionate about React, Node.js, and creative web experiences.";
+        result =
+          "Kiran is a full-stack developer passionate about React, Node.js, and creative web experiences.";
         speakText = "namaskar  mero pura naam kiran chha।";
         break;
       case "matrix":
@@ -223,12 +253,23 @@ export default function EasterEggTerminal() {
         const newTheme = theme === "dark" ? "light" : "dark";
         setTheme(newTheme);
         result = `Theme: ${newTheme}`;
-        speakText = newTheme === "dark" ? "डार्क थिम सक्रिय भयो।" : "लाइट थिम सक्रिय भयो।";
+        speakText =
+          newTheme === "dark"
+            ? "डार्क थिम सक्रिय भयो।"
+            : "लाइट थिम सक्रिय भयो।";
         break;
       default:
-        if (cmd.startsWith("say ")) { result = `You said: ${cmd.slice(4)}`; speakText = cmd.slice(4); }
-        else if (cmd.startsWith("echo ")) { result = `Echo: ${cmd.slice(5)}`; speakText = cmd.slice(5); }
-        else { triggerShake(); result = `Unknown command: ${cmd}`; speakText = "अज्ञात आदेश।"; }
+        if (cmd.startsWith("say ")) {
+          result = `You said: ${cmd.slice(4)}`;
+          speakText = cmd.slice(4);
+        } else if (cmd.startsWith("echo ")) {
+          result = `Echo: ${cmd.slice(5)}`;
+          speakText = cmd.slice(5);
+        } else {
+          triggerShake();
+          result = `Unknown command: ${cmd}`;
+          speakText = "अज्ञात आदेश।";
+        }
     }
 
     addHistory(input, result);
@@ -236,10 +277,18 @@ export default function EasterEggTerminal() {
     setInput("");
   };
 
-  const handleGhostDragEnd = () => { addHistory("ghost", "Ghost interaction complete."); speakNepali("तपाईंले भूतलाई तान्नुभयो। धन्यवाद।"); };
+  const handleGhostDragEnd = () => {
+    addHistory("ghost", "Ghost interaction complete.");
+    speakNepali("तपाईंले भूतलाई तान्नुभयो। धन्यवाद।");
+  };
 
   return (
-    <motion.div animate={controls} className={`h-[350px] rounded-xl w-[515px] flex items-center justify-center p-2 transition-colors duration-300 ${theme === "dark" ? "bg-gray-900" : "bg-amber-50"}`}>
+    <motion.div
+      animate={controls}
+      className={`h-full w-full min-h-[320px] sm:min-h-[350px] md:h-[350px] md:w-full flex items-center justify-center p-2 transition-colors duration-300 ${
+        theme === "dark" ? "bg-gray-900" : "bg-amber-50"
+      }`}
+    >
       <MatrixRain active={matrix} />
       <RainEffect active={rain} />
       <Ghost onDragEnd={handleGhostDragEnd} />
@@ -253,16 +302,28 @@ export default function EasterEggTerminal() {
         {/* Header */}
         <div className="flex justify-between items-center border-b p-1">
           <div className="flex gap-1">
-            <motion.div className="w-3 h-3 rounded-full bg-red-500" onClick={() => triggerConfetti()} />
+            <motion.div
+              className="w-3 h-3 rounded-full bg-red-500"
+              onClick={() => triggerConfetti()}
+            />
             <motion.div className="w-3 h-3 rounded-full bg-yellow-500" />
             <motion.div className="w-3 h-3 rounded-full bg-green-500" />
           </div>
-          <div className="text-xs">{matrix ? "MATRIX" : rain ? "RAIN" : "TERMINAL"}</div>
+          <div className="text-xs">
+            {matrix ? "MATRIX" : rain ? "RAIN" : "TERMINAL"}
+          </div>
         </div>
 
         {/* Output */}
-        <div ref={terminalRef} className="h-50 overflow-y-auto p-1 space-y-1 text-sm">
-          {history.map((line, idx) => <div key={idx} className="whitespace-pre-wrap">{line}</div>)}
+        <div
+          ref={terminalRef}
+          className="flex-1 max-h-[200px] sm:max-h-[220px] overflow-y-auto p-1 space-y-1 text-sm"
+        >
+          {history.map((line, idx) => (
+            <div key={idx} className="whitespace-pre-wrap">
+              {line}
+            </div>
+          ))}
         </div>
 
         {/* Input */}
@@ -286,9 +347,24 @@ export default function EasterEggTerminal() {
         {/* Dance */}
         <AnimatePresence>
           {dance && (
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1.3 }} exit={{ scale: 0 }} className="fixed bottom-28 right-28 text-4xl pointer-events-none flex gap-1">
-              <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 0.5, repeat: Infinity }}>🕺</motion.div>
-              <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: 0.2 }}>💃</motion.div>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1.3 }}
+              exit={{ scale: 0 }}
+              className="fixed bottom-28 right-28 text-4xl pointer-events-none flex gap-1"
+            >
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity }}
+              >
+                🕺
+              </motion.div>
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity, delay: 0.2 }}
+              >
+                💃
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -296,7 +372,12 @@ export default function EasterEggTerminal() {
         {/* Fortune */}
         <AnimatePresence>
           {showFortune && (
-            <motion.div initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }} className={`fixed bottom-4 left-1/2 -translate-x-1/2 p-2 rounded shadow-md ${theme === "dark" ? "bg-gray-700" : "bg-white"} border-2 border-yellow-500 text-sm`}>
+            <motion.div
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 80, opacity: 0 }}
+              className={`fixed bottom-4 left-1/2 -translate-x-1/2 p-2 rounded shadow-md ${theme === "dark" ? "bg-gray-700" : "bg-white"} border-2 border-yellow-500 text-sm`}
+            >
               <div>{currentFortune}</div>
             </motion.div>
           )}
