@@ -1,188 +1,174 @@
 "use client";
-import React, { useState } from 'react';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import Link from 'next/link';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { toast } from "sonner";
 
-
-const CONTACT_TITLE = "Contact Me";
-const TAGLINE = "Get In Touch";
-const PHONE = "+977 9845257185";
-const EMAIL = "kiran.khatri.787@gmail.com";
-
-const ContactPage = () => {
-    const [data, setData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-    });
-
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setData(prev => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }));
-    };
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setStatus('loading');
-        
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                setStatus('success');
-                setData({ name: '', email: '', phone: '', subject: '', message: '' });
-                toast.success('Message sent successfully!');
-            } else {
-                setStatus('error');
-                toast.error('Failed to send message. Please try again.');
-            }
-        } catch (error) {
-            console.error(error);
-            setStatus('error');
-        }
-    };
-
-    return (
-        <main style={{ background: 'var(--bg)', minHeight: '100vh' }}>
-            <Navbar />
-            
-            <div className='max-w-6xl mx-auto py-30 px-6'>
-                {/* Header Section */}
-                <div className="text-center mb-16">
-                    <p className="text-sm font-bold uppercase tracking-[4px] mb-2" style={{ color: 'var(--primary)' }}>{TAGLINE}</p>
-                    <h1 className="text-4xl md:text-5xl font-extrabold" style={{ color: 'var(--text-primary)' }}>{CONTACT_TITLE}</h1>
-                </div>
-
-                <div className='grid grid-cols-1 lg:grid-cols-5 gap-12'>
-                    
-                    {/* Left Side: Contact Info Card */}
-                    <div className='lg:col-span-2 p-8 rounded-2xl h-fit' 
-                         style={{ background: 'var(--bg)', boxShadow: 'var(--shadow-neo)' }}>
-                        <div className="rounded-xl overflow-hidden mb-6 shadow-inner border-4 border-white/10">
-                            <img 
-                                src="/profile.jpeg" 
-                                alt="Contact" 
-                                className="w-full h-48 object-cover  transition-all duration-500" 
-                            />
-                        </div>
-                        <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Bhum Bikram Silwal</h2>
-                        <p className="text-[var(--text-muted)] mb-6">Software Engineer</p>
-                        
-                        <div className="space-y-4 mb-8">
-                            <p className="flex items-center gap-3" style={{ color: 'var(--text-muted)' }}>
-                                <span className="font-bold text-[var(--text-primary)] w-16 text-sm uppercase">Phone:</span>
-                                <Link href={`tel:${PHONE}`} className="hover:text-[var(--primary)] transition-colors">{PHONE}</Link>
-                            </p>
-                            <p className="flex items-center gap-3" style={{ color: 'var(--text-muted)' }}>
-                                <span className="font-bold text-[var(--text-primary)] w-16 text-sm uppercase">Email:</span>
-                                <Link href={`mailto:${EMAIL}`} className="hover:text-[var(--primary)] transition-colors">{EMAIL}</Link>
-                            </p>
-                        </div>
-
-                        <div>
-                            <h5 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>Find me on</h5>
-                            <div className='flex gap-4'>
-                                <Link href="https://linkedin.com" target="_blank" className="btn-neumorphic !p-3">LinkedIn</Link>
-                                <Link href="https://github.com" target="_blank" className="btn-neumorphic !p-3">GitHub</Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Side: Contact Form */}
-                    <div className='lg:col-span-3 p-8 md:p-10 rounded-2xl' 
-                         style={{ background: 'var(--bg)', boxShadow: 'var(--shadow-neo)' }}>
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                                <div className='flex flex-col gap-2'>
-                                    <label htmlFor="name" className="text-xs font-bold uppercase ml-2" style={{ color: 'var(--text-muted)' }}>Your Name</label>
-                                    <input 
-                                        type="text" id='name' name='name' value={data.name} onChange={handleChange} required 
-                                        className="neumorphic-input"
-                                    />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                    <label htmlFor='phone' className="text-xs font-bold uppercase ml-2" style={{ color: 'var(--text-muted)' }}>Phone Number</label>
-                                    <input 
-                                        type="tel" id='phone' name='phone' value={data.phone} onChange={handleChange} required 
-                                        className="neumorphic-input"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className='flex flex-col gap-2'>
-                                <label htmlFor="email" className="text-xs font-bold uppercase ml-2" style={{ color: 'var(--text-muted)' }}>Email Address</label>
-                                <input 
-                                    type="email" id='email' name='email' value={data.email} onChange={handleChange} required 
-                                    className="neumorphic-input"
-                                />
-                            </div>
-
-                            <div className='flex flex-col gap-2'>
-                                <label htmlFor="subject" className="text-xs font-bold uppercase ml-2" style={{ color: 'var(--text-muted)' }}>Subject</label>
-                                <input 
-                                    type="text" id='subject' name='subject' value={data.subject} onChange={handleChange} required 
-                                    className="neumorphic-input"
-                                />
-                            </div>
-
-                            <div className='flex flex-col gap-2'>
-                                <label htmlFor="message" className="text-xs font-bold uppercase ml-2" style={{ color: 'var(--text-muted)' }}>Your Message</label>
-                                <textarea 
-                                    id='message' name='message' rows={6} value={data.message} onChange={handleChange} required 
-                                    className="neumorphic-input"
-                                ></textarea>
-                            </div>
-
-                            <button 
-                                type='submit' 
-                                disabled={status === 'loading'}
-                                className="btn-neumorphic w-full mt-4 uppercase tracking-widest disabled:opacity-50"
-                            >
-                                {status === 'loading' ? 'Sending...' : 'Send Message'}
-                            </button>
-
-                            {status === 'success' && <p className="text-green-500 text-center font-bold">Message sent successfully!</p>}
-                            {status === 'error' && <p className="text-red-500 text-center font-bold">Failed to send message.</p>}
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-            
-            <Footer />
-
-            <style jsx>{`
-                .neumorphic-input {
-                    background: white;
-                    border: none;
-                    border-radius: var(--radius-md);
-                    padding: 1rem;
-                    color: var(--text-primary);
-                    box-shadow: inset 4px 4px 4px rgba(0,0,0,0.07), 
-                                inset -4px -4px 4px rgba(255,255,255,0.9);
-                    outline: none;
-                    transition: all 0.2s ease;
-                }
-                .neumorphic-input:focus {
-                    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1), 
-                                inset -2px -2px 4px rgba(255,255,255,0.8);
-                    border: 1px solid var(--primary);
-                }
-            `}</style>
-        </main>
-    );
+type Message = {
+  role: "user" | "system";
+  text: string;
+  time: string;
 };
 
-export default ContactPage;
+const templates = [
+  "I want to hire you for a project",
+  "I have a project inquiry",
+  "I found a bug on your site",
+  "Just wanted to connect",
+];
+
+const ContactChatPage = () => {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "system",
+      text: "Hi 👋 I'm Kiran. You can chat with me like WhatsApp. How can I help you?",
+      time: new Date().toLocaleTimeString(),
+    },
+  ]);
+
+  const [input, setInput] = useState("");
+  const [status, setStatus] = useState("idle");
+
+  const sendMessage = async (text: string) => {
+    if (!text.trim()) return;
+
+    const userMessage: Message = {
+      role: "user",
+      text,
+      time: new Date().toLocaleTimeString(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+
+    try {
+      setStatus("loading");
+
+      // optional: send to backend email API
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Chat User",
+          email: "chat@visitor.com",
+          subject: "Chat Message",
+          message: text,
+        }),
+      });
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "system",
+          text: "Got it 👍 I’ll get back to you soon!",
+          time: new Date().toLocaleTimeString(),
+        },
+      ]);
+
+      toast.success("Message sent");
+    } catch (err) {
+      toast.error("Failed to send message");
+    } finally {
+      setStatus("idle");
+    }
+  };
+
+  return (
+    <main className="min-h-screen" style={{ background: "var(--bg)" }}>
+      <Navbar />
+
+      <div className="max-w-6xl mx-auto py-30 grid grid-cols-1 lg:grid-cols-4 gap-8 p-6">
+
+        {/* PROFILE PANEL */}
+        <div
+          className="p-6 rounded-2xl h-fit"
+          style={{ boxShadow: "var(--shadow-neo)" }}
+        >
+          <img
+            src="/profile.jpeg"
+            className="rounded-xl mb-4 w-full h-52 object-cover"
+          />
+
+          <h2 className="text-xl font-bold">Bhum Bikram Silwal</h2>
+          <p className="text-sm text-gray-500">Software Engineer</p>
+
+          <div className="mt-4 text-sm">
+            <p>🟢 Active now</p>
+            <p>⏱ Send message to get reply instat</p>
+          </div>
+        </div>
+
+        {/* CHAT AREA */}
+        <div
+          className="lg:col-span-3 flex flex-col h-[80vh] rounded-2xl overflow-hidden"
+          style={{ boxShadow: "var(--shadow-neo)" }}
+        >
+          {/* messages */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-3">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${
+                  msg.role === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                <div
+                  className={`max-w-[70%] p-3 rounded-2xl text-sm ${
+                    msg.role === "user"
+                      ? "bg-[var(--primary)] text-black"
+                      : "bg-white/70"
+                  }`}
+                  style={{ boxShadow: "var(--shadow-neo)" }}
+                >
+                  <p>{msg.text}</p>
+                  <span className="text-[10px] opacity-60 block mt-1">
+                    {msg.time}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* templates */}
+          <div className="p-2 flex gap-2 flex-wrap border-t">
+            {templates.map((t, i) => (
+              <button
+                key={i}
+                onClick={() => sendMessage(t)}
+                className="text-xs px-3 py-1 rounded-full bg-white/70"
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
+          {/* input */}
+          <div className="p-3 flex gap-2 border-t">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 p-3 rounded-xl"
+              style={{
+                boxShadow: "inset 4px 4px 6px rgba(0,0,0,0.1)",
+              }}
+            />
+
+            <button
+              onClick={() => sendMessage(input)}
+              disabled={status === "loading"}
+              className="px-6 rounded-xl font-bold"
+              style={{ background: "var(--primary)" }}
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  );
+};
+
+export default ContactChatPage;

@@ -1,88 +1,47 @@
 "use client";
-import React, { useState } from "react";
 
-const title = "MY RESUME";
-const tag = "Professional Path";
-
-const timelineData = {
-  Education: [
-    {
-      year: "2015 - 2019",
-      title: "BSc in Computer Science",
-      description:
-        "University of Technology - Focus on Software Engineering and Algorithms.",
-      rating: "4.8/5",
-    },
-    {
-      year: "2012 - 2015",
-      title: "High School Diploma",
-      description:
-        "Science & Mathematics Stream - Graduated with Honors.",
-      rating: "4.9/5",
-    },
-  ],
-
-  Experience: [
-    {
-      year: "2023 - Present",
-      title: "Senior Full-Stack Developer",
-      description:
-        "Tech Company XYZ - Leading the migration to Next.js and microservices architecture.",
-      rating: "5.0/5",
-    },
-    {
-      year: "2020 - 2023",
-      title: "Frontend Developer",
-      description:
-        "Startup ABC - Specialized in building real-time dashboards and responsive UIs.",
-      rating: "4.7/5",
-    },
-  ],
-
-  Skills: [
-    {
-      title: "Frontend",
-      skills: [
-        { name: "React / Next.js", level: 90 },
-        { name: "TypeScript", level: 85 },
-        { name: "Tailwind CSS", level: 95 },
-        { name: "Framer Motion", level: 80 },
-      ],
-    },
-    {
-      title: "Backend",
-      skills: [
-        { name: "Node.js / Express", level: 88 },
-        { name: "MongoDB", level: 82 },
-        { name: "REST API", level: 90 },
-        { name: "JWT Auth", level: 78 },
-      ],
-    },
-    {
-      title: "Tools",
-      skills: [
-        { name: "Git & GitHub", level: 92 },
-        { name: "Vercel", level: 85 },
-        { name: "Docker", level: 65 },
-        { name: "Figma", level: 70 },
-      ],
-    },
-  ],
-};
+import getData from "@/service/Contentful";
+import React, { useEffect, useState } from "react";
 
 const Resume: React.FC = () => {
-  const [activeTab, setActiveTab] =
-    useState<keyof typeof timelineData>("Education");
+  const [data, setData] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<string>("Education");
 
-  const leftCol =
-    activeTab !== "Skills"
-      ? (timelineData[activeTab] as any[]).filter((_, i) => i % 2 === 0)
-      : [];
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getData();
+      const resume = res?.fields?.resume?.resumeSection;
+      setData(resume);
+    };
 
-  const rightCol =
-    activeTab !== "Skills"
-      ? (timelineData[activeTab] as any[]).filter((_, i) => i % 2 !== 0)
-      : [];
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return (
+      <div className="text-center py-20 text-[var(--text-muted)]">
+        Loading Resume...
+      </div>
+    );
+  }
+
+  const { header, tabs, data: resumeData } = data;
+
+  // normalize key mapping (Contentful uses lowercase)
+  const keyMap: any = {
+    Education: "education",
+    Experience: "experience",
+    Skills: "skills",
+  };
+
+  const activeKey = keyMap[activeTab];
+
+  // timeline split logic (only for Education & Experience)
+  const timelineItems =
+    activeTab !== "Skills" ? resumeData?.[activeKey] || [] : [];
+
+  const leftCol = timelineItems.filter((_: any, i: number) => i % 2 === 0);
+  const rightCol = timelineItems.filter((_: any, i: number) => i % 2 !== 0);
 
   return (
     <section
@@ -97,13 +56,13 @@ const Resume: React.FC = () => {
             className="text-sm font-bold uppercase tracking-[4px] mb-2"
             style={{ color: "var(--primary)" }}
           >
-            {tag}
+            {header?.tag}
           </p>
           <h1
             className="text-4xl md:text-5xl font-extrabold"
             style={{ color: "var(--text-primary)" }}
           >
-            {title}
+            {header?.title}
           </h1>
         </div>
 
@@ -116,22 +75,16 @@ const Resume: React.FC = () => {
             boxShadow: "var(--shadow-neo)",
           }}
         >
-          {Object.keys(timelineData).map((tab) => (
+          {tabs?.map((tab: string) => (
             <button
               key={tab}
-              onClick={() =>
-                setActiveTab(tab as keyof typeof timelineData)
-              }
-              className="flex-1 py-5 rounded-xl font-bold transition-all duration-300 text-base md:text-lg"
+              onClick={() => setActiveTab(tab)}
+              className="flex-1 py-5 rounded-xl font-bold transition-all  duration-300 cursor-pointer"
               style={{
                 color:
-                  activeTab === tab
-                    ? "var(--primary)"
-                    : "var(--text-muted)",
-                background:
-                  activeTab === tab ? "var(--bg)" : "transparent",
-                boxShadow:
-                  activeTab === tab ? "var(--shadow-neo)" : "none",
+                  activeTab === tab ? "var(--primary)" : "var(--text-muted)",
+                background: activeTab === tab ? "var(--bg)" : "transparent",
+                boxShadow: activeTab === tab ? "var(--shadow-neo)" : "none",
               }}
             >
               {tab}
@@ -139,10 +92,10 @@ const Resume: React.FC = () => {
           ))}
         </div>
 
-        {/* Skills Section */}
+        {/* SKILLS SECTION */}
         {activeTab === "Skills" ? (
           <div className="grid md:grid-cols-2 gap-10">
-            {timelineData.Skills.map((group, i) => (
+            {resumeData?.skills?.map((group: any, i: number) => (
               <div
                 key={i}
                 className="p-8 bg-[var(--surface)]"
@@ -152,30 +105,32 @@ const Resume: React.FC = () => {
                 }}
               >
                 <h3 className="text-2xl font-bold mb-6 text-[var(--text-primary)]">
-                  {group.title}
+                  {group.categoryTitle}
                 </h3>
 
-                <div className="space-y-6">
-                  {group.skills.map((skill, idx) => (
-                    <div key={idx}>
-                      <div className="flex justify-between mb-2">
-                        <span className="font-medium text-[var(--text-primary)]">
-                          {skill.name}
-                        </span>
-                        <span className="text-[var(--primary)] font-bold">
-                          {skill.level}%
-                        </span>
-                      </div>
+                <div className="flex flex-wrap gap-4">
+                  {group.skillList?.map((skill: any, idx: number) => (
+                    <div key={idx} className="relative group">
+                      <span
+                        className="px-4 py-2 text-sm font-medium rounded-full"
+                        style={{
+                          background: "var(--bg)",
+                          boxShadow: "var(--shadow-neo)",
+                          color: "var(--text-primary)",
+                        }}
+                      >
+                        {skill.name}
+                      </span>
 
-                      <div className="w-full h-3 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-700"
-                          style={{
-                            width: `${skill.level}%`,
-                            background: "var(--primary)",
-                          }}
-                        />
-                      </div>
+                      <span
+                        className="absolute -top-4 -right-5 text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "var(--primary)",
+                          color: "#fff",
+                        }}
+                      >
+                        {skill.level}%
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -183,7 +138,7 @@ const Resume: React.FC = () => {
             ))}
           </div>
         ) : (
-          /* Timeline Section */
+          /* TIMELINE SECTION */
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20">
             {[leftCol, rightCol].map((columnItems, colIdx) => (
               <div key={colIdx} className="relative">
@@ -203,42 +158,37 @@ const Resume: React.FC = () => {
                   style={{ background: "var(--text-muted)" }}
                 />
 
-                {columnItems.map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative mb-12 ml-12 group"
-                  >
+                {columnItems.map((item: any, index: number) => (
+                  <div key={index} className="relative mb-12 ml-12 group">
                     <div
-                      className="absolute left-[-54px] top-10 w-5 h-5 rounded-full border-4 transition-all duration-300 group-hover:bg-[var(--primary)]"
+                      className="absolute left-[-54px] top-10 w-5 h-5 rounded-full"
                       style={{
                         background: "var(--bg)",
-                        borderColor: "rgba(0,0,0,0.1)",
-                        boxShadow: "var(--shadow-neo)",
+                        border: "4px solid rgba(0,0,0,0.1)",
                       }}
                     />
 
                     <div
-                      className="p-8 bg-[var(--surface)] md:p-10 transition-all duration-300 hover:shadow-soft"
+                      className="p-8 bg-[var(--surface)]"
                       style={{
                         borderRadius: "var(--radius-lg)",
                         boxShadow: "var(--shadow-neo)",
                       }}
                     >
-                      <div className="flex justify-between items-start mb-6">
+                      <div className="flex justify-between mb-6">
                         <div>
-                          <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary)] transition-colors">
+                          <h3 className="text-xl font-bold text-[var(--text-primary)]">
                             {item.title}
                           </h3>
-                          <p className="text-sm text-[var(--text-muted)] mt-2 font-medium">
+                          <p className="text-sm text-[var(--text-muted)] mt-2">
                             {item.year}
                           </p>
                         </div>
 
                         <div
-                          className="px-3 py-1 rounded shadow-sm text-xs font-bold whitespace-nowrap"
+                          className="px-3 py-1 text-xs font-bold rounded"
                           style={{
                             background: "var(--bg)",
-                            boxShadow: "var(--shadow-neo)",
                             color: "var(--primary)",
                           }}
                         >
@@ -246,9 +196,7 @@ const Resume: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="w-full h-[1px] bg-black/5 dark:bg-white/5 mb-6" />
-
-                      <p className="text-[var(--text-muted)] leading-relaxed text-sm md:text-base">
+                      <p className="text-[var(--text-muted)] text-sm leading-relaxed">
                         {item.description}
                       </p>
                     </div>

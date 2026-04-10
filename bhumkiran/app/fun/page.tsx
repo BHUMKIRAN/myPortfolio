@@ -1,10 +1,10 @@
-import Footer from '@/components/Footer'
-import Navbar from '@/components/Navbar'
-import EasterEggTerminal from '@/components/tools/EsterEgg'
-import MemoryGame from '@/components/tools/Memory'
-import CodePlayground from '@/components/tools/PlayGround'
-import InteractiveTerminal from '@/components/tools/Terminal'
-import React from 'react'
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import EasterEggTerminal from "@/components/tools/EsterEgg";
+import MemoryGame from "@/components/tools/Memory";
+import CodePlayground from "@/components/tools/PlayGround";
+import InteractiveTerminal from "@/components/tools/Terminal";
+import React from "react";
 
 const ToolsPage = () => {
   return (
@@ -23,50 +23,53 @@ const ToolsPage = () => {
         </div>
 
         {/* Compact & Best Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-
-          {/* Main Workstation: Code Playground (Spans 8/12) */}
-          <div className="lg:col-span-5 h-[410px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* 1 */}
+          <div className="h-[420px]">
             <ToolCard title="Playground.js" subtitle="Live_Compiler">
               <CodePlayground />
             </ToolCard>
           </div>
-          <div className="lg:col-span-5 h-[420px]">
+
+          {/* 2 */}
+          <div className="h-[420px]">
             <ToolCard title="Root_Access" subtitle="Encrypted_Sectors">
               <EasterEggTerminal />
             </ToolCard>
           </div>
 
-          {/* Side Panel: Memory Game (Spans 4/12) */}
-          <div className="lg:col-span-5 h-full">
+          {/* 3 */}
+          <div className="h-[420px]">
             <ToolCard title="Neural_Match" subtitle="Logic_Test">
               <MemoryGame />
             </ToolCard>
           </div>
 
-          {/* Bottom Row Left: Terminal (Spans 7/12) */}
-          <div className="lg:col-span-5 h-[420px]">
+          {/* 4 */}
+          <div className="h-[420px]">
             <ToolCard title="System_Console" subtitle="STDOUT/STDIN">
               <InteractiveTerminal />
             </ToolCard>
           </div>
-
-          {/* Bottom Row Right: Easter Egg (Spans 5/12) */}
-
-
         </div>
       </main>
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
 /**
  * Reusable Ultra-Compact Window Wrapper
  */
 const ToolCard = ({ title, subtitle, children, isHidden = false }: any) => (
-  <div className={`group flex flex-col h-full rounded-[var(--radius-sm)] bg-[var(--surface)] border border-white/5 overflow-hidden transition-all duration-300 hover:border-[var(--primary)]/40 ${isHidden ? 'opacity-50 hover:opacity-100 border-dashed' : 'shadow-[var(--shadow-neo)]'}`}>
+  <div
+    className={`group flex flex-col h-full rounded-[var(--radius-sm)] bg-[var(--surface)] border border-white/5 overflow-hidden transition-all duration-300 hover:border-[var(--primary)]/40 ${
+      isHidden
+        ? "opacity-50 hover:opacity-100 border-dashed"
+        : "shadow-[var(--shadow-neo)]"
+    }`}
+  >
     {/* Minimalist Header */}
     <div className="px-3 py-2 border-b border-[var(--bg)] flex justify-between items-center bg-white/[0.02]">
       <div className="flex items-center gap-3">
@@ -92,6 +95,6 @@ const ToolCard = ({ title, subtitle, children, isHidden = false }: any) => (
       {children}
     </div>
   </div>
-)
+);
 
-export default ToolsPage
+export default ToolsPage;

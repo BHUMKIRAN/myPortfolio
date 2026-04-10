@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ThumbsUp, ExternalLink, X } from "lucide-react";
+import { Heart, ThumbsUp, X } from "lucide-react";
 
 interface ProjectsProps {
     data: {
@@ -8,65 +8,88 @@ interface ProjectsProps {
         description: string;
         image: string;
         link: string;
-        projectpdf: string;
+        projectPdf: string; // ✅ FIXED (camelCase)
     };
     setOpen: (open: boolean) => void;
 }
 
 const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
+    const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
 
-    const handleLike = () => setLikeCount(likeCount + 1);
+    const handleLike = () => {
+        if (liked) return; // ✅ prevents multiple likes
+        setLiked(true);
+        setLikeCount(1);
+    };
+
     const handleClose = () => setOpen(false);
-    const handleView = () => window.open(data.link, "_blank");
-    const handlePDF = () => window.open(data.projectpdf, "_blank");
+
+    const handleView = () => {
+        window.open(data.link, "_blank");
+    };
+
+    const handlePDF = () => {
+        if (data.projectPdf) {
+            window.open(data.projectPdf, "_blank");
+        } else {
+            alert("No PDF available");
+        }
+    };
+
+    
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            {/* Main Modal Card */}
+            {/* Modal Card */}
             <div
-                className="relative w-full max-w-4xl overflow-hidden transition-all"
+                className="relative w-full max-w-4xl overflow-hidden"
                 style={{
-                    background: 'var(--bg)',
-                    borderRadius: 'var(--radius-lg)',
-                    boxShadow: 'var(--shadow-soft)', // Using the larger soft shadow for the modal
+                    background: "var(--bg)",
+                    borderRadius: "var(--radius-lg)",
+                    boxShadow: "var(--shadow-soft)",
                 }}
             >
-                {/* Header Section */}
+                {/* Header */}
                 <div className="flex justify-between items-center p-8 pb-4">
                     <div>
-                        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'var(--primary)' }}>
+                        <p
+                            className="text-xs font-bold uppercase tracking-widest mb-1"
+                            style={{ color: "var(--primary)" }}
+                        >
                             Project Details
                         </p>
-                        <h2 className="text-3xl font-extrabold" style={{ color: 'var(--text-primary)' }}>
+                        <h2
+                            className="text-3xl font-extrabold"
+                            style={{ color: "var(--text-primary)" }}
+                        >
                             {data.title}
                         </h2>
                     </div>
 
-                    {/* Neumorphic Close Button */}
                     <button
                         onClick={handleClose}
-                        className="group flex items-center justify-center w-12 h-12 transition-all duration-200"
+                        className="w-12 h-12 flex items-center cursor-pointer justify-center"
                         style={{
-                            background: 'var(--bg)',
-                            borderRadius: '50%',
-                            boxShadow: 'var(--shadow-neo)',
+                            background: "var(--bg)",
+                            borderRadius: "50%",
+                           
                         }}
                     >
-                        <X size={20} className="transition-colors group-hover:text-[var(--primary)]" />
+                        <X size={20} />
                     </button>
                 </div>
 
-                {/* Modal Body */}
+                {/* Body */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 pt-4">
-
-                    {/* Image with Inset Frame */}
+                    {/* Image */}
                     <div
                         className="p-3"
                         style={{
-                            background: 'var(--bg)',
-                            borderRadius: 'var(--radius-md)',
-                            boxShadow: 'inset 6px 6px 12px rgba(0,0,0,0.05), inset -6px -6px 12px rgba(255,255,255,0.8)'
+                            background: "var(--bg)",
+                            borderRadius: "var(--radius-md)",
+                            boxShadow:
+                                "inset 6px 6px 12px rgba(0,0,0,0.05), inset -6px -6px 12px rgba(255,255,255,0.8)",
                         }}
                     >
                         <img
@@ -76,30 +99,40 @@ const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
                         />
                     </div>
 
+                    {/* Content */}
                     <div className="flex flex-col justify-between py-2">
                         <div>
-                            <div className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
+                            <div
+                                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
                                 style={{
-                                    background: 'var(--bg)',
-                                    boxShadow: 'var(--shadow-neo)',
-                                    color: 'var(--text-muted)'
-                                }}>
+                                    background: "var(--bg)",
+                                    boxShadow: "var(--shadow-neo)",
+                                    color: "var(--text-muted)",
+                                }}
+                            >
                                 {data.category}
                             </div>
 
-                            <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
+                            <p
+                                className="text-lg leading-relaxed mb-6"
+                                style={{ color: "var(--text-muted)" }}
+                            >
                                 {data.description}
                             </p>
                         </div>
 
-                        {/* Actions Section */}
-                        <div className="mt-4 flex gap-4 ">
+                        {/* Actions */}
+                        <div className="mt-4 flex gap-4 flex-wrap">
+                            {/* Like Button */}
                             <button
                                 onClick={handleLike}
-                                className="btn-neumorphic px-4 py-2"
+                                className="flex gap-4 cursor-pointer px-4 py-2"
+                            
                             >
-                                👍 Like ({likeCount})
+                                {liked ? <Heart/> : <ThumbsUp/>} <span>{likeCount}</span>
                             </button>
+
+                            {/* View Project */}
                             <button
                                 onClick={handleView}
                                 className="btn-neumorphic px-4 py-2"
@@ -107,7 +140,8 @@ const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
                                 View Project
                             </button>
 
-                            {data.projectpdf && (
+                            {/* PDF Button (FIXED) */}
+                            {data.projectPdf && (
                                 <button
                                     onClick={handlePDF}
                                     className="btn-neumorphic px-4 py-2"
@@ -120,8 +154,11 @@ const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
                 </div>
             </div>
 
-            {/* Background Click to Close */}
-            <div className="absolute inset-0 -z-10" onClick={handleClose} />
+            {/* Background Close */}
+            <div
+                className="absolute inset-0 -z-10"
+                onClick={handleClose}
+            />
         </div>
     );
 };

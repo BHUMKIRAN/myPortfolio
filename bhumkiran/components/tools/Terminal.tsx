@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, JSX } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Define commands and responses
 const commands: Record<string, string | JSX.Element> = {
   about: "Hi! I'm Kiran, a full-stack developer passionate about React, Node.js, and creative web experiences.",
-  projects: <a href="/#portfolio" className="text-amber underline hover:text-forest">View my projects</a>,
+  projects: <Link href="/#portfolio" className="text-amber underline hover:text-forest">View my projects</Link>,
   skills: "Skills: JavaScript, React, Next.js, Tailwind, Node.js, Electron",
   contact: <span>Email me at: <a href="mailto:kiran@example.com" className="text-amber underline">kiran@example.com</a></span>,
   help: "Try typing: about, projects, skills, contact",
