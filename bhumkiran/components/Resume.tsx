@@ -144,7 +144,7 @@ const Resume: React.FC = () => {
               <div key={colIdx} className="relative">
                 <div className="mb-12 ml-10">
                   <p className="text-[var(--primary)] font-bold mb-2">
-                    2012 - 2026
+                    {columnItems[0]?.year}
                   </p>
                   <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
                     {colIdx === 0

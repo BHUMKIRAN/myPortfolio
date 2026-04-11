@@ -8,7 +8,7 @@ interface ProjectsProps {
         description: string;
         image: string;
         link: string;
-        projectPdf: string; // ✅ FIXED (camelCase)
+        github: string; // ✅ FIXED (camelCase)
     };
     setOpen: (open: boolean) => void;
 }
@@ -30,8 +30,8 @@ const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
     };
 
     const handlePDF = () => {
-        if (data.projectPdf) {
-            window.open(data.projectPdf, "_blank");
+        if (data.github) {
+            window.open(data.github, "_blank");
         } else {
             alert("No PDF available");
         }
@@ -141,12 +141,12 @@ const Projects: React.FC<ProjectsProps> = ({ data, setOpen }) => {
                             </button>
 
                             {/* PDF Button (FIXED) */}
-                            {data.projectPdf && (
+                            {data.github && (
                                 <button
                                     onClick={handlePDF}
                                     className="btn-neumorphic px-4 py-2"
                                 >
-                                    View PDF
+                                    Github
                                 </button>
                             )}
                         </div>
