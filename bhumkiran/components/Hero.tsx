@@ -168,8 +168,10 @@ const HeroSection = () => {
                     item.platform === "Facebook"
                       ? FacebookIcon
                       : item.platform === "Instagram"
-                      ? InstagramIcon
-                      : LinkedInIcon;
+                        ? InstagramIcon
+                        : LinkedInIcon;
+
+                        
 
                   return (
                     <a
@@ -178,6 +180,7 @@ const HeroSection = () => {
                       target="_blank"
                       className="grid hover:scale-110 hover:translate-y-1 transition-all duration-300 h-12 w-12 place-items-center rounded bg-[var(--surface)] shadow"
                     >
+                      
                       <Icon size={20} />
                     </a>
                   );
