@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_NP",
+    locale: "en-NP",
     url: siteUrl,
     siteName,
     title: `${siteTitle} | Software Engineer`,
@@ -72,6 +72,10 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
   },
   themeColor: "#f8005f",
+};
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
