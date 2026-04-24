@@ -69,8 +69,9 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
   },
+  themeColor: "#f8005f",
 };
 
 export default function RootLayout({
