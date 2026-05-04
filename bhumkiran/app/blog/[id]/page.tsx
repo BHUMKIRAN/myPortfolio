@@ -5,63 +5,66 @@ import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Clock } from "lucide-react";
-
-const cardsData = [
-  {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9bTPEXEWXywBvzNknoa_SfiWK7yW0HVf4Sw&s",
-    title: "Modern Web Development Trends in 2026",
-    subtitle: "Development",
-    readTime: "5 min read",
-    paragraph:
-      "Explore the latest trends shaping modern web development, including AI‑powered UI, server components, and performance‑first architecture.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786",
-    title: "Designing Clean UI with Tailwind CSS",
-    subtitle: "UI/UX Design",
-    readTime: "4 min read",
-    paragraph:
-      "Learn how to build clean, responsive interfaces using Tailwind CSS and utility‑first design principles for scalable projects.",
-  },
-  {
-    image:
-      "https://d2ms8rpfqc4h24.cloudfront.net/React_Performance_Optimization_Techniques_0bf4828f5a.jpg",
-    title: "Optimizing React Apps for Performance",
-    subtitle: "Performance",
-    readTime: "6 min read",
-    paragraph:
-      "Discover techniques to optimize React applications, reduce bundle size, and improve load times for better user experience.",
-  },
-];
+import getData from "@/service/Contentful";
 
 const BlogDetail = () => {
   const params = useParams();
-  const [blog, setBlog] = useState<(typeof cardsData)[0] | null>(null);
+  const [blog, setBlog] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!params?.id) return;
+    const fetchDataAndFindBlog = async () => {
+      try {
+        const res = await getData();
+        const cards = res?.fields?.blog?.cards;
 
-    const idSlug = params.id;
-    // match slug with title
-    const foundBlog = cardsData.find((b) => {
-      const slug = b.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-      return slug === idSlug;
-    });
+        // Ensure params.id exists and cards is an array
+        if (params?.id && Array.isArray(cards)) {
+          // Convert string ID from URL to a number to use as index
+          const index = parseInt(params.id as string, 10);
+          
+          // Get the blog at that specific index
+          const foundBlog = cards[index];
+          setBlog(foundBlog || null);
+        }
+      } catch (error) {
+        console.error("Error fetching blog:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setBlog(foundBlog || null);
-  }, [params?.id]);
+    fetchDataAndFindBlog();
+  }, [params?.id]); // Re-run if ID changes
 
-  if (!blog)
+
+  useEffect(()=>{
+    if(blog && blog.title){
+      document.title = `${blog.title} | Bhum bikram silwal kiran `;
+    }
+    else if (!loading && !blog) {
+      document.title = `Blog not found | Bhum bikram silwal kiran`
+    }
+    else {
+      document.title = `Bhum bikram silwal kiran`
+    }
+  })
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!blog) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
         Blog not found!
       </div>
     );
-
+  }
   return (
     <>
       <Navbar />

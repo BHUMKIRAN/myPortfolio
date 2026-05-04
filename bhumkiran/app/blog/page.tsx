@@ -23,7 +23,6 @@ const Blog = () => {
 
    
     const BlogData = data?.fields?.blog
-    console.log(BlogData)
     const title = BlogData?.title
     const subtitle = BlogData?.subtitle
     const cards = BlogData?.cards || []
@@ -36,11 +35,12 @@ const cardsData = cards.map((card : any) => ({
     paragraph: card.paragraph
 }));
 
-    const handleClick = (card: typeof cardsData[0]) => {
-        setData(card);
+    const handleClick = (index : number) => {
+    
 
-        const id = card.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-        router.push(`/blog/${id}`);
+        // const id = card.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        // router.push(`/blog/${id}`);
+        router.push(`/blog/${index}`);
 
 
     };
@@ -65,7 +65,7 @@ const cardsData = cards.map((card : any) => ({
                         <div
                             key={index}
                             className="group bg-[var(--surface)] p-6 rounded-[var(--radius-lg)] shadow-[var(--shadow-neo)] hover:shadow-[var(--shadow-soft)] transition-all duration-300 cursor-pointer flex flex-col"
-                            onClick={() => handleClick(card)}
+                            onClick={() => handleClick(index)}
                         >
                             {/* Image Container */}
                             <div className="overflow-hidden rounded-[var(--radius-md)] mb-6">

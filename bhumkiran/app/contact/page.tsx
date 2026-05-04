@@ -11,6 +11,7 @@ import {
   Send,
   VideoIcon,
 } from "lucide-react";
+import {Metadata} from "next"
 
 type Message = {
   role: "user" | "system";
@@ -50,6 +51,7 @@ const ContactChatPage = () => {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const callTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 
   useEffect(() => {
     const audio = new Audio("/ringtone.mp3");
