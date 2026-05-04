@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { Client } from "@/lib/contentful";
+import { getContentfulClient } from "@/lib/contentful";
 
 export async function GET() {
   try {
-    const res = await Client.getEntries({
+    const client = getContentfulClient();
+    const res = await client.getEntries({
       content_type: "myPortfolio",
       limit: 1,
     });

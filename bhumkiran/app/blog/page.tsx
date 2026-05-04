@@ -2,37 +2,40 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { ArrowBigRight, Clock } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import getData from '@/service/Contentful';
+
 const Blog = () => {
-    const [data, setData] = useState<typeof cardsData[0] | null>(null);
-    const title = "MY BLOG";
-    const subtitle = "VIEW MY BLOGS";
+    const [data, setData] = useState<any | null>(null);
+ 
     const router = useRouter();
 
-    const cardsData = [
-        {
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9bTPEXEWXywBvzNknoa_SfiWK7yW0HVf4Sw&s", // replace with actual chosen image URL
-            title: "Modern Web Development Trends in 2026",
-            subtitle: "Development",
-            readTime: "5 min read",
-            paragraph: "Explore the latest trends shaping modern web development, including AI‑powered UI, server components, and performance‑first architecture."
-        },
-        {
-            image: "https://images.unsplash.com/photo-1556761175-4b46a572b786", // replace with chosen image
-            title: "Designing Clean UI with Tailwind CSS",
-            subtitle: "UI/UX Design",
-            readTime: "4 min read",
-            paragraph: "Learn how to build clean, responsive interfaces using Tailwind CSS and utility‑first design principles for scalable projects."
-        },
-        {
-            image: "https://d2ms8rpfqc4h24.cloudfront.net/React_Performance_Optimization_Techniques_0bf4828f5a.jpg", // replace with chosen image
-            title: "Optimizing React Apps for Performance",
-            subtitle: "Performance",
-            readTime: "6 min read",
-            paragraph: "Discover techniques to optimize React applications, reduce bundle size, and improve load times for better user experience."
-        }
-    ];
+    const fetchData = async () => {
+        const res = await getData();
+        setData(res);
+    }
+
+    useEffect(() => {
+        fetchData();
+
+    }, [])
+
+   
+    const BlogData = data?.fields?.blog
+    console.log(BlogData)
+    const title = BlogData?.title
+    const subtitle = BlogData?.subtitle
+    const cards = BlogData?.cards || []
+
+const cardsData = cards.map((card : any) => ({
+    image: card.image,
+    title: card.title,
+    subtitle: card.subtitle,
+    readTime: card.readTime,
+    paragraph: card.paragraph
+}));
+
     const handleClick = (card: typeof cardsData[0]) => {
         setData(card);
 
@@ -58,7 +61,7 @@ const Blog = () => {
 
                 {/* Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {cardsData.map((card, index) => (
+                    {cardsData.map((card:any, index: number) => (
                         <div
                             key={index}
                             className="group bg-[var(--surface)] p-6 rounded-[var(--radius-lg)] shadow-[var(--shadow-neo)] hover:shadow-[var(--shadow-soft)] transition-all duration-300 cursor-pointer flex flex-col"
