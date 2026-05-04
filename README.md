@@ -1,17 +1,17 @@
 # BhumKiran Portfolio
 
-A modern personal portfolio built with Next.js, React, Tailwind CSS, and Contentful. This project showcases the developer's hero introduction, services, portfolio projects, resume section, contact form, and an interactive developer playground.
+A personal portfolio for Bhum Bikram Silwal built with Next.js, React, TypeScript, Tailwind CSS, and Contentful. It includes a dynamic homepage, portfolio project modals, resume content, a blog section, a chat-style contact experience, and an interactive developer tools page.
 
-## Overview
+## Features
 
-Key features:
-
-- Dynamic content sourced from Contentful for hero, features, portfolio, and resume sections
-- Mobile-friendly layout with responsive navigation
-- Contact page with form submission, email notifications, and auto-reply via Nodemailer
-- Project detail modal with PDF support and external links
-- Interactive developer tools page with mini-app experiences
-- Blog listing page with clickable story cards
+- Contentful-powered hero, services/features, projects, resume, and blog content
+- Responsive portfolio homepage with animated role text and social links
+- Project cards with detail modal support
+- Blog listing and dynamic blog detail routes
+- Chat-style contact page with quick replies, contact form submission, and email auto-reply
+- AI-assisted visitor replies through Groq's OpenAI-compatible chat API
+- `/fun` page with a code playground, terminal, memory game, and hidden terminal panel
+- Standalone Next.js output for Docker-friendly deployment
 
 ## Tech Stack
 
@@ -21,128 +21,122 @@ Key features:
 - Tailwind CSS v4
 - Contentful
 - Nodemailer
+- Groq API
 - Framer Motion
-- Lucide React icons
-- Sonner toast notifications
-- Google Generative AI dependencies available
+- Lucide React
+- React Icons
+- Sonner
 
 ## Project Structure
 
-- `app/` - application routes and page entrypoints
-- `components/` - reusable UI components (Hero, Features, Navbar, Footer, Resume, Portfolio, etc.)
-- `modal/` - project details modal component
-- `lib/` - Contentful client configuration
-- `service/` - helper service for fetching Contentful data
-- `app/api/contact/route.ts` - contact API route to send emails
-- `public/` - static assets and images
+```text
+bhumkiran/
+  app/                  Next.js App Router pages and API routes
+  app/api/ai/           Groq-powered chat reply endpoint
+  app/api/contact/      Contact form email endpoint
+  app/api/contentful/   Contentful fetch endpoint
+  components/           Shared UI and page sections
+  components/tools/     Interactive tools for the /fun page
+  lib/                  Contentful client setup
+  modal/                Project detail modal
+  public/               Static assets
+  service/              Client-side data fetch helpers
+```
 
-## Available Pages
+## Pages
 
-- `/` - main portfolio landing page
-- `/contact` - contact chat and inquiry interface
+- `/` - portfolio homepage
+- `/contact` - chat-style contact and inquiry page
 - `/blog` - blog listing page
-- `/fun` - developer playground with mini tools and interactive widgets
+- `/blog/[id]` - blog detail page
+- `/fun` - developer tools playground
 
-## Installation
+## Getting Started
+
+Install dependencies from the app directory:
 
 ```bash
 cd bhumkiran
 pnpm install
 ```
 
-> You can also use `npm install` or `yarn install` if you prefer.
+Create `bhumkiran/.env.local`:
 
-## Running Locally
+```bash
+CONTENTFUL_SPACE_ID=your_space_id
+CONTENTFUL_ACCESS_TOKEN=your_access_token
+CONTENTFUL_ENVIRONMENT=master
+
+EMAIL=your_gmail_address
+PASSWORD=your_gmail_app_password
+
+GROQ_API_KEY=your_groq_api_key
+```
+
+Start the development server:
 
 ```bash
 pnpm dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open `http://localhost:3000`.
 
-## Build
+## Scripts
 
 ```bash
-pnpm run build
+pnpm dev      # Start the local development server
+pnpm build    # Create a production build
+pnpm start    # Run the production server
+pnpm lint     # Run ESLint
 ```
 
 ## Environment Variables
 
-Create a `.env` file or provide these variables in your environment:
+| Variable | Required | Used for |
+| --- | --- | --- |
+| `CONTENTFUL_SPACE_ID` | Yes | Contentful space connection |
+| `CONTENTFUL_ACCESS_TOKEN` | Yes | Contentful delivery API access |
+| `CONTENTFUL_ENVIRONMENT` | No | Contentful environment, defaults to `master` |
+| `EMAIL` | Yes | Gmail account used by Nodemailer |
+| `PASSWORD` | Yes | Gmail app password used by Nodemailer |
+| `GROQ_API_KEY` | Yes for AI chat | Visitor chat replies through `/api/ai` |
 
-```bash
-NEXT_PUBLIC_CONTENTFUL_SPACE_ID=your_space_id
-NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN=your_access_token
-NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT=master
-EMAIL=your_email@example.com
-PASSWORD=your_email_password
-```
+## Contentful
 
-## Contact API
+The Contentful client lives in `lib/contentful.ts`, and `/api/contentful` fetches the first `myPortfolio` entry. The frontend reads that data through `service/Contentful.ts`.
 
-The contact form sends inquiry emails using `nodemailer` through `app/api/contact/route.ts`. It also sends an auto-reply email to the submitting user.
+Current Contentful-backed sections include:
 
-## Contentful Integration
-
-The site uses the Contentful client defined in `lib/contentful.ts` and fetches portfolio content in `service/Contentful.ts`.
-
-Contentful fields power:
-
-- hero section
-- features/services section
+- hero
+- features/services
 - portfolio projects
-- resume data
+- resume
+- blog cards and blog details
 
-## Notes
+## Email And AI
 
-- The contact page includes a chat-like interface and several quick message templates.
-- The `/fun` page includes interactive components such as a terminal, memory game, code playground, and easter egg panel.
-- The blog page currently uses static card data and routes to corresponding blog detail pages.
+The contact form posts to `/api/contact`, which sends the inquiry to the configured `EMAIL` address and sends an auto-reply to the visitor.
 
-## Scripts
-
-- `pnpm dev` - start the development server
-- `pnpm build` - create a production build
-- `pnpm start` - run the production server
-- `pnpm lint` - run ESLint
-
-## Deployment
-
-This project is ready for deployment on any platform that supports Next.js. Vercel is recommended for the easiest setup.
+The chat experience can also post to `/api/ai`, which calls Groq's OpenAI-compatible API using the `llama-3.1-8b-instant` model.
 
 ## Docker
 
-This project includes a `Dockerfile` and `docker-compose.yml` for efficient local container builds and deployment.
-
-### Local container workflow
+Build and run locally with Docker Compose:
 
 ```bash
 cd bhumkiran
-pnpm install
-# Copy .env.example to .env and fill in your real values
-cp .env.example .env
-# Edit .env with your Contentful keys and email credentials
 docker compose build
 docker compose up -d
 ```
 
-Then open `http://localhost:3000`.
+By default the app is available at `http://localhost:3000`. You can override the host port with `WEB_PORT` in `.env.local`.
 
-**Note:** The Docker build requires valid Contentful credentials in `.env` to fetch portfolio data during the Next.js build process. Without real values, the build will fail with "Expected parameter accessToken".
+## Deployment
 
-### Vercel deployment with Docker
+This app can be deployed anywhere that supports Next.js standalone output or Docker containers. Vercel is the simplest option for a Next.js deployment.
 
-1. Push this repository to GitHub, GitLab, or another supported Git provider.
-2. In Vercel, create a new project and import the repo.
-3. Select the Docker deployment option or use the `Dockerfile` deployment preset.
-4. Add these environment variables in Vercel:
-   - `CONTENTFUL_SPACE_ID`
-   - `CONTENTFUL_ACCESS_TOKEN`
-   - `CONTENTFUL_ENVIRONMENT`
-   - `EMAIL`
-   - `PASSWORD`
-5. Deploy. Vercel will build the Docker image and run the container.
+For production, configure the same environment variables listed above in your hosting provider.
 
 ## License
 
-This repository is currently configured as a private personal portfolio project.
+Private personal portfolio project.
