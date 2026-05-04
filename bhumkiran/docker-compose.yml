@@ -2,15 +2,21 @@ services:
   web:
     build:
       context: .
+      dockerfile: Dockerfile
+      args:
+        CONTENTFUL_ENVIRONMENT: ${CONTENTFUL_ENVIRONMENT:-master}
+    image: bhumkiran-portfolio:latest
 
     env_file:
-      - .env
+      - .env.local
+
+    environment:
+      NODE_ENV: production
+      CONTENTFUL_ENVIRONMENT: ${CONTENTFUL_ENVIRONMENT:-master}
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
 
     ports:
-      - "3000:3000"
+      - "${WEB_PORT:-3000}:3000"
 
-    volumes:
-      - .:/app
-      - /app/node_modules
-
-    restart: always
+    restart: unless-stopped
