@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Providers from "@/providers/QueryProvider"
 import "./globals.css";
 
 const siteName = "Bhum Kiran";
@@ -86,7 +87,9 @@ export default function RootLayout({
   return (
     <html lang="en-NP" className="h-full antialiased">
       <body className="min-h-full bg-[var(--bg)] text-[var(--foreground)]">
-        <div className="flex min-h-full flex-col">{children}</div>
+        <Providers>
+           <div className="flex min-h-full flex-col">{children}</div>
+        </Providers>
       </body>
     </html>
   );

@@ -12,5 +12,19 @@ const getData = async () => {
 
   return res.json();
 };
+export const getBlogData = async () => {
+  const res = await fetch("/api/contentful?type=blog", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+};
 
 export default getData;

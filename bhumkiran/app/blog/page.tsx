@@ -2,39 +2,57 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { ArrowBigRight, Clock } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import getData from '@/service/Contentful';
+import {useQuery} from "@tanstack/react-query"
 
+import {getBlogData} from '@/service/Contentful';
 const Blog = () => {
-    const [data, setData] = useState<any | null>(null);
+    
  
     const router = useRouter();
 
     const fetchData = async () => {
-        const res = await getData();
-        setData(res);
+        const res = await getBlogData();
+      return res
     }
 
-    useEffect(() => {
-        fetchData();
+    const {data , isloading, isError } = useQuery({
+        queryKey: ['blog'],
+        queryFn: fetchData
+    })
 
-    }, [])
 
+   const formatDate = (time: string) => {
+  const date = new Date(time);
+
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
    
-    const BlogData = data?.fields?.blog
-    const title = BlogData?.title
-    const subtitle = BlogData?.subtitle
-    const cards = BlogData?.cards || []
 
-const cardsData = cards.map((card : any) => ({
-    image: card.image,
-    title: card.title,
-    subtitle: card.subtitle,
-    readTime: card.readTime,
-    paragraph: card.paragraph
-}));
+    const BlogData = data?.fields?.blogs[0]
+    const title = BlogData?.fields?.title
+    const subtitle = BlogData?.fields?.paragraph
+    const contents = BlogData?.fields?.contents || []
 
+const contentData = contents
+  .map((card: any) => ({
+    image: `https:${card?.fields?.images[0]?.fields?.file?.url}`,
+    title: card?.fields?.title,
+    // subtitle: card?.fields?.subtitle,
+    // readTime: card?.fields?.readTime,
+    paragraph: card?.fields?.paragraph,
+    time: card?.fields?.time,
+    formatted: formatDate(card?.fields?.time),
+  }))
+  .sort((a: any, b: any) => {
+    return new Date(b.time).getTime() - new Date(a.time).getTime();
+  });
     const handleClick = (index : number) => {
     
 
@@ -44,6 +62,8 @@ const cardsData = cards.map((card : any) => ({
 
 
     };
+    if(isloading) return <div>Loading...</div>
+    if(isError) return <div>Something went wrong</div>
 
     return (
         <>
@@ -61,7 +81,7 @@ const cardsData = cards.map((card : any) => ({
 
                 {/* Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {cardsData.map((card:any, index: number) => (
+                    {contentData.map((card:any, index: number) => (
                         <div
                             key={index}
                             className="group bg-[var(--surface)] p-6 rounded-[var(--radius-lg)] shadow-[var(--shadow-neo)] hover:shadow-[var(--shadow-soft)] transition-all duration-300 cursor-pointer flex flex-col"
@@ -81,7 +101,7 @@ const cardsData = cards.map((card : any) => ({
                                 <span className="text-[var(--primary)] uppercase tracking-wider">{card.subtitle}</span>
                                 <div className="flex items-center gap-1">
                                     <Clock size={16} />
-                                    <span>{card.readTime}</span>
+                                    <span>{card.formatted}</span>
                                 </div>
                             </div>
 
