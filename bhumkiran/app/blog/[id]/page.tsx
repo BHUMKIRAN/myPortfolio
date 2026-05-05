@@ -1,16 +1,46 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Clock } from "lucide-react";
 import { getBlogData } from "@/service/Contentful";
 import { useQuery } from "@tanstack/react-query";
-import { error } from "next/dist/build/output/log";
-import { div } from "framer-motion/client";
-import { MdOtherHouses } from "react-icons/md";
+import * as React from "react";
 
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+function CarouselDemo({ x }) {
+  return (
+    <Carousel className="w-full max-w-[12rem] sm:max-w-xs">
+      <CarouselContent>
+        {x.map((i, index) => (
+          <CarouselItem key={index}>
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <span className="text-4xl font-semibold">
+                    <img src={i} alt="" />
+                  </span>
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+}
 const BlogDetail = () => {
   const params = useParams();
   const [blog, setBlog] = useState<any>(null);
@@ -35,8 +65,8 @@ const BlogDetail = () => {
   }, [params?.id, contents]);
 
   useEffect(() => {
-    if (blog && blog.title) {
-      document.title = `${blog.title} | Bhum bikram silwal kiran`;
+    if (blog && blog?.fields?.title) {
+      document.title = `${blog?.fields?.title} | Bhum bikram silwal kiran`;
     } else if (!isLoading && !blog) {
       document.title = `Blog not found | Bhum bikram silwal kiran`;
     } else {
@@ -57,6 +87,8 @@ const BlogDetail = () => {
     title: blog?.fields?.title || "",
     subtitle: blog?.fields?.paragraph || "",
     readTime: blog?.readTime || "8 min read",
+    images:
+      blog?.fields?.images?.map((i) => `https:${i.fields.file.url}`) || [],
 
     contents: blog?.fields?.contents || [],
 
@@ -71,6 +103,7 @@ const BlogDetail = () => {
       },
     })),
   };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
@@ -94,14 +127,14 @@ const BlogDetail = () => {
       </div>
     );
   }
-  console.log("fjounded blog", blog);
+
   return (
     <div>
       <Navbar />
       <section className="max-w-5xl mx-auto py-30 px-6">
         {/* header */}
         <div className="mb-8 text-center">
-          <span className="text-[var(--primary)] uppercase tracking-widest font-medium">
+          <span className="text-[var(--primary)] uppercase tracking-widest font-medium  text-xl">
             {blogData.title}
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mt-2">
@@ -115,16 +148,17 @@ const BlogDetail = () => {
 
         {/* introduction + image */}
         <div className="grid grid-cols-2 gap-x-5">
-          <div className="prose prose-lg text-[var(--text-primary)] mx-auto">
+          <div className="prose prose-lg text-[var(--text-primary)] text-lg leading-relaxed mx-auto">
             <p>{blogData.subtitle}</p>
           </div>
-          <div className="overflow-hidden rounded-lg shadow-lg mb-8">
+          <CarouselDemo x={blogData.images} />
+          {/* <div className="overflow-hidden rounded-lg shadow-lg mb-8">
             <img
               src={blog.image}
               alt={blog.title}
               className="w-full h-[400px] object-cover transition-transform duration-500 hover:scale-105"
             />
-          </div>
+          </div> */}
         </div>
 
         {/* contents */}
