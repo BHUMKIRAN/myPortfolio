@@ -89,7 +89,7 @@ const BlogDetail = () => {
 
     readTime: blog?.readTime || "8 min read",
     images:
-      blog?.fields?.images?.map((i) => `https:${i.fields.file.url}`) || [],
+      blog?.fields?.images?.map((i:any) => `https:${i.fields.file.url}`) || [],
 
     contents: blog?.fields?.contents || [],
 

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FacebookIcon, InstagramIcon, LinkedInIcon } from "./svg/SocialIcons";
 
+import Spline from "@splinetool/react-spline/next";
+
 import {
   SiMongodb,
   SiExpress,
@@ -118,7 +120,7 @@ const HeroSection = () => {
   if (!data) return null;
 
   return (
-    <section id="home" className="w-full">
+    <main id="home" className="w-full">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-[1200px] flex-col items-center gap-12 px-10 py-20 lg:flex-row lg:justify-between">
         {/* LEFT CONTENT */}
         <div className="w-full max-w-2xl">
@@ -168,10 +170,8 @@ const HeroSection = () => {
                     item.platform === "Facebook"
                       ? FacebookIcon
                       : item.platform === "Instagram"
-                        ? InstagramIcon
-                        : LinkedInIcon;
-
-                        
+                      ? InstagramIcon
+                      : LinkedInIcon;
 
                   return (
                     <a
@@ -180,7 +180,6 @@ const HeroSection = () => {
                       target="_blank"
                       className="grid hover:scale-110 hover:translate-y-1 transition-all duration-300 h-12 w-12 place-items-center rounded bg-[var(--surface)] shadow"
                     >
-                      
                       <Icon size={20} />
                     </a>
                   );
@@ -228,6 +227,7 @@ const HeroSection = () => {
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-110"
               />
+              {/* <Spline scene="https://prod.spline.design/LfeE2bgt22eLnLLL/scene.splinecode" /> */}
             </div>
 
             <h4 className="text-center font-bold">
@@ -240,7 +240,7 @@ const HeroSection = () => {
           </TiltCard>
         </div>
       </div>
-    </section>
+    </main>
   );
 };
 
