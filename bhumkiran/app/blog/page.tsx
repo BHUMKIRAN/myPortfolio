@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import { getBlogData } from "@/service/Contentful";
+
 const Blog = () => {
   const router = useRouter();
 
-  const { data, isloading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["blog"],
     queryFn: getBlogData,
   });
@@ -28,13 +29,16 @@ const Blog = () => {
 
   const BlogData = data?.fields?.blogs[0];
   const title = BlogData?.fields?.title;
+
   const subtitle = BlogData?.fields?.paragraph;
   const contents = BlogData?.fields?.contents || [];
 
+  console.log(BlogData);
   const contentData = contents
     .map((card: any) => ({
       image: `https:${card?.fields?.images[0]?.fields?.file?.url}`,
       title: card?.fields?.title,
+      subtitle: card?.fields?.chips,
       // subtitle: card?.fields?.subtitle,
       // readTime: card?.fields?.readTime,
       paragraph: card?.fields?.paragraph,
@@ -49,7 +53,7 @@ const Blog = () => {
     // router.push(`/blog/${id}`);
     router.push(`/blog/${index}`);
   };
-  if (isloading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Something went wrong</div>;
 
   return (

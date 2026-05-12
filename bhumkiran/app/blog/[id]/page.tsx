@@ -17,7 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-function CarouselDemo({ x }) {
+function CarouselDemo({ x }: { x: string[] }) {
   return (
     <Carousel className="w-full max-w-[12rem] sm:max-w-xs">
       <CarouselContent>
@@ -73,8 +73,8 @@ const BlogDetail = () => {
     }
   }, [blog, isLoading]);
 
-  const mapToline = (text: string) => {
-    const lines = text.split("\n");
+  const mapToline = (text: string | undefined) => {
+    const lines = text?.split("\n") || [];
     return lines.map((line, index) => (
       <React.Fragment key={index}>
         {line}
@@ -84,7 +84,9 @@ const BlogDetail = () => {
   };
   const blogData = {
     title: blog?.fields?.title || "",
-    subtitle: blog?.fields?.paragraph || "",
+    subtitle: blog?.fields?.chips || "",
+    paragraph: blog?.fields?.paragraph || "",
+
     readTime: blog?.readTime || "8 min read",
     images:
       blog?.fields?.images?.map((i) => `https:${i.fields.file.url}`) || [],
@@ -136,8 +138,8 @@ const BlogDetail = () => {
           <span className="text-[var(--primary)] uppercase tracking-widest font-medium  text-xl">
             {blogData.title}
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mt-2">
-            {""}
+          <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mt-2 uppercase">
+            {blogData.subtitle}
           </h1>
           <div className="flex items-center justify-center mt-3 text-sm text-[var(--text-muted)] gap-2">
             <Clock size={16} />
@@ -158,7 +160,7 @@ const BlogDetail = () => {
       "
             >
               <p className="text-justify leading-8 text-[17px] tracking-wide ">
-                {blogData.subtitle}
+                {blogData.paragraph}
               </p>
             </div>
           </div>
@@ -175,10 +177,10 @@ const BlogDetail = () => {
           {blogData.contentsData.map((card: any, index: number) => (
             <div
               key={index}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
+              className={`grid ${card.others?.example?.length === 0 ? "grid-cols-1 " : "grid-cols-1 md:grid-cols-2"} gap-6 items-start`}
             >
               {/* LEFT SIDE */}
-              <div className="space-y-4 max-w-3xl">
+              <div className="space-y-4 w-full">
                 <h2
                   className="
       text-2xl 
@@ -205,35 +207,37 @@ const BlogDetail = () => {
               </div>
 
               {/* RIGHT SIDE */}
-              <div className="bg-[var(--card)] text-[var(--text-primary)] rounded-xl border border-white/10 shadow-md overflow-hidden max-h-[420px] flex flex-col">
-                {/* Header */}
-                <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-black/20">
-                  <span className="text-xs tracking-wide opacity-70">
-                    Example Code
-                  </span>
-                </div>
-
-                {/* Code Block */}
-                <div className="p-4 overflow-auto">
-                  <pre className="text-sm leading-6 whitespace-pre-wrap break-words font-mono">
-                    {card.others?.example}
-                  </pre>
-                </div>
-
-                {/* Link Section */}
-                {card.others?.links && (
-                  <div className="px-4 py-3 border-t border-white/10">
-                    <a
-                      href={card.others.links}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-blue-500 hover:text-blue-400 underline break-all text-sm"
-                    >
-                      {card.others.links}
-                    </a>
+              {card.others?.example?.length > 0 && (
+                <div className="bg-[var(--card)] text-[var(--text-primary)] rounded-xl border border-white/10 shadow-md overflow-hidden max-h-[420px] flex flex-col">
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-black/20">
+                    <span className="text-xs tracking-wide opacity-70">
+                      Example Code
+                    </span>
                   </div>
-                )}
-              </div>
+
+                  {/* Code Block */}
+                  <div className="p-4 overflow-auto">
+                    <pre className="text-sm leading-6 whitespace-pre-wrap break-words font-mono">
+                      {card.others?.example}
+                    </pre>
+                  </div>
+
+                  {/* Link Section */}
+                  {card.others?.links && (
+                    <div className="px-4 py-3 border-t border-white/10">
+                      <a
+                        href={card.others.links}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-500 hover:text-blue-400 underline break-all text-sm"
+                      >
+                        {card.others.links}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
