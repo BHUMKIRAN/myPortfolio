@@ -1,4 +1,5 @@
 allowBuilds:
+  msw: true
   protobufjs: true
   react-tsparticles: true
   sharp: true

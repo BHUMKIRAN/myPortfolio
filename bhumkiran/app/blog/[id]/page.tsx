@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Clock } from "lucide-react";
+import { Clock, ArrowLeft, ExternalLink } from "lucide-react";
 import { getBlogData } from "@/service/Contentful";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -129,7 +128,7 @@ const BlogDetail = () => {
   }
 
   return (
-    <div>
+    <main className="min-h-screen flex flex-col">
       <Navbar />
       <section className="max-w-5xl mx-auto py-30 px-6">
         {/* header */}
@@ -147,18 +146,27 @@ const BlogDetail = () => {
         </div>
 
         {/* introduction + image */}
-        <div className="grid grid-cols-2 gap-x-5">
-          <div className="prose prose-lg text-[var(--text-primary)] text-lg leading-relaxed mx-auto">
-            <p>{blogData.subtitle}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start px-0 md:px-10 lg:px-0 py-10">
+          {/* TEXT SECTION */}
+          <div className="max-w-3xl">
+            <div
+              className="
+        prose 
+        prose-lg 
+        max-w-none
+        
+      "
+            >
+              <p className="text-justify leading-8 text-[17px] tracking-wide ">
+                {blogData.subtitle}
+              </p>
+            </div>
           </div>
-          <CarouselDemo x={blogData.images} />
-          {/* <div className="overflow-hidden rounded-lg shadow-lg mb-8">
-            <img
-              src={blog.image}
-              alt={blog.title}
-              className="w-full h-[400px] object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div> */}
+
+          {/* IMAGE / CAROUSEL */}
+          <div className="w-full justify-center items-center flex">
+            <CarouselDemo x={blogData.images} />
+          </div>
         </div>
 
         {/* contents */}
@@ -170,30 +178,60 @@ const BlogDetail = () => {
               className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
             >
               {/* LEFT SIDE */}
-              <div>
-                <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-2">
+              <div className="space-y-4 max-w-3xl">
+                <h2
+                  className="
+      text-2xl 
+      md:text-3xl 
+      font-bold 
+      text-primary
+      leading-tight
+    "
+                >
                   {card.title}
                 </h2>
 
-                <p className="text-gray-600 leading-relaxed">
+                <p
+                  className="
+      text-[15px]
+      md:text-base
+      leading-8
+      tracking-wide
+      text-justify
+    "
+                >
                   {card.paragraph}
                 </p>
               </div>
 
               {/* RIGHT SIDE */}
-              <div className="bg-white text-black p-4 rounded-md overflow-auto max-h-[400px]">
-                <pre className="text-sm whitespace-pre">
-                  {card.others?.example}
-                </pre>
+              <div className="bg-[var(--card)] text-[var(--text-primary)] rounded-xl border border-white/10 shadow-md overflow-hidden max-h-[420px] flex flex-col">
+                {/* Header */}
+                <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-black/20">
+                  <span className="text-xs tracking-wide opacity-70">
+                    Example Code
+                  </span>
+                </div>
 
+                {/* Code Block */}
+                <div className="p-4 overflow-auto">
+                  <pre className="text-sm leading-6 whitespace-pre-wrap break-words font-mono">
+                    {card.others?.example}
+                  </pre>
+                </div>
+
+                {/* Link Section */}
                 {card.others?.links && (
-                  <a
-                    href={card.others.links}
-                    target="_blank"
-                    className="text-blue-400 underline mt-3 block break-all"
-                  >
-                    {card.others.links}
-                  </a>
+                  <div className="px-4 py-3 border-t border-white/10">
+                    <a
+                      href={card.others.links}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-500 hover:text-blue-400 underline break-all text-sm"
+                    >
+                      {card.others.links}
+                    </a>
+                  </div>
                 )}
               </div>
             </div>
@@ -211,7 +249,7 @@ const BlogDetail = () => {
         </div>
       </section>
       <Footer />
-    </div>
+    </main>
   );
 };
 
