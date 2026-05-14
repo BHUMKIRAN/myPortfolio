@@ -2,6 +2,7 @@
 
 import getData from "@/service/Contentful";
 import React, { useEffect, useState } from "react";
+import ResumeSkeleton from "./skeletons/resume";
 
 const Resume: React.FC = () => {
   const [data, setData] = useState<any>(null);
@@ -17,13 +18,7 @@ const Resume: React.FC = () => {
     fetchData();
   }, []);
 
-  if (!data) {
-    return (
-      <div className="text-center py-20 text-[var(--text-muted)]">
-        Loading Resume...
-      </div>
-    );
-  }
+  if (!data) return <ResumeSkeleton/>;
 
   const { header, tabs, data: resumeData } = data;
 

@@ -89,7 +89,7 @@ const BlogDetail = () => {
 
     readTime: blog?.readTime || "8 min read",
     images:
-      blog?.fields?.images?.map((i:any) => `https:${i.fields.file.url}`) || [],
+      blog?.fields?.images?.map((i: any) => `https:${i.fields.file.url}`) || [],
 
     contents: blog?.fields?.contents || [],
 
@@ -177,7 +177,11 @@ const BlogDetail = () => {
           {blogData.contentsData.map((card: any, index: number) => (
             <div
               key={index}
-              className={`grid ${card.others?.example?.length === 0 ? "grid-cols-1 " : "grid-cols-1 md:grid-cols-2"} gap-6 items-start`}
+              className={`grid ${
+                card.others?.example?.length === 0
+                  ? "grid-cols-1 "
+                  : "grid-cols-1 md:grid-cols-2"
+              } gap-6 items-start`}
             >
               {/* LEFT SIDE */}
               <div className="space-y-4 w-full">

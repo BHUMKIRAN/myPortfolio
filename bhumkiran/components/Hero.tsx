@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { FacebookIcon, InstagramIcon, LinkedInIcon } from "./svg/SocialIcons";
 
 import Spline from "@splinetool/react-spline/next";
@@ -21,6 +21,7 @@ import {
 
 import getData from "@/service/Contentful";
 import TiltCard from "./animation/TiltCard";
+import HeroSkeleton from "./skeletons/hero";
 
 /* ---------------- ICON MAP ---------------- */
 const iconMap: any = {
@@ -117,8 +118,7 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, [displayed, deleting, roleIndex, data]);
 
-  if (!data) return null;
-
+  if (!data) return <HeroSkeleton />;
   return (
     <main id="home" className="w-full">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-[1200px] flex-col items-center gap-12 px-10 py-20 lg:flex-row lg:justify-between">

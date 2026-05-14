@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Smartphone, Globe, Layout, Database, Zap, Cpu } from "lucide-react";
 import getData from "@/service/Contentful";
 import TiltCard from "./animation/TiltCard";
+import FeaturesSkeleton from "./skeletons/features";
 
 /* ---------------- ICON MAPPER ---------------- */
 const iconMap: any = {
@@ -87,6 +88,7 @@ const Features = () => {
     fetchData();
   }, []);
 
+  if (!data) return <FeaturesSkeleton />;
   return (
     <section
       id="feature"
