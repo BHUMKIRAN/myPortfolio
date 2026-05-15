@@ -1,24 +1,9 @@
 "use client";
 
-import getData from "@/service/Contentful";
-import React, { useEffect, useState } from "react";
-import ResumeSkeleton from "./skeletons/resume";
+import React, { useState } from "react";
 
-const Resume: React.FC = () => {
-  const [data, setData] = useState<any>(null);
+const Resume: React.FC = ({ data }) => {
   const [activeTab, setActiveTab] = useState<string>("Education");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      const resume = res?.fields?.resume?.resumeSection;
-      setData(resume);
-    };
-
-    fetchData();
-  }, []);
-
-  if (!data) return <ResumeSkeleton/>;
 
   const { header, tabs, data: resumeData } = data;
 

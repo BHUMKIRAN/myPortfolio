@@ -1,42 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import Projects from "@/modal/Projects";
-import getData from "@/service/Contentful";
-import PortfolioSkeleton from "./skeletons/myportfolio";
 
-const MyPortfolio: React.FC = () => {
+interface Props {
+  data: any | null;
+}
+
+const MyPortfolio: React.FC<Props> = ({ data }) => {
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
   const handleCardClick = (project: any) => {
     setSelectedProject(project);
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getData();
-
-        // Correct path from your Contentful JSON
-        const portfolioSection = res?.fields?.projects?.portfolioSection;
-
-        setData(portfolioSection);
-      } catch (error) {
-        console.error("Error fetching portfolio data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <PortfolioSkeleton />;
   return (
     <section id="portfolio" className="py-20 px-6 bg-[var(--bg)]">
       <div className="max-w-6xl mx-auto">

@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FacebookIcon, InstagramIcon, LinkedInIcon } from "./svg/SocialIcons";
-
-import Spline from "@splinetool/react-spline/next";
 
 import {
   SiMongodb,
@@ -19,9 +17,7 @@ import {
   SiTailwindcss,
 } from "react-icons/si";
 
-import getData from "@/service/Contentful";
 import TiltCard from "./animation/TiltCard";
-import HeroSkeleton from "./skeletons/hero";
 
 /* ---------------- ICON MAP ---------------- */
 const iconMap: any = {
@@ -74,22 +70,14 @@ interface HeroSectionType {
 }
 
 /* ---------------- COMPONENT ---------------- */
-const HeroSection = () => {
-  const [data, setData] = useState<HeroSectionType | null>(null);
-
+const HeroSection = ({
+  data,
+}: {
+  data: HeroSectionType | null | undefined;
+}) => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
-
-  /* -------- FETCH DATA -------- */
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      const hero = res?.fields?.hero?.heroSection;
-      setData(hero);
-    };
-    fetchData();
-  }, []);
 
   /* -------- TYPEWRITER EFFECT -------- */
   useEffect(() => {
@@ -118,7 +106,6 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, [displayed, deleting, roleIndex, data]);
 
-  if (!data) return <HeroSkeleton />;
   return (
     <main id="home" className="w-full">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-[1200px] flex-col items-center gap-12 px-10 py-20 lg:flex-row lg:justify-between">
@@ -143,7 +130,7 @@ const HeroSection = () => {
 
           {/* BUTTONS */}
           <div className="mt-10 flex gap-4 ">
-            {data.buttons.map((btn, i) => (
+            {data?.buttons?.map((btn, i: number) => (
               <a
                 key={i}
                 href={btn.link}
@@ -165,7 +152,7 @@ const HeroSection = () => {
               </p>
 
               <div className="flex gap-3 ">
-                {data.socialLinks.map((item, i) => {
+                {data?.socialLinks?.map((item, i) => {
                   const Icon =
                     item.platform === "Facebook"
                       ? FacebookIcon
@@ -194,7 +181,7 @@ const HeroSection = () => {
               </p>
 
               <div className="flex flex-wrap gap-3">
-                {data.skills.map((skill, i) => {
+                {data?.skills?.map((skill, i) => {
                   const Icon = iconMap[skill.iconSlug];
 
                   return (
@@ -221,21 +208,23 @@ const HeroSection = () => {
         <div className="w-[350px]">
           <TiltCard className="p-5 bg-[var(--surface)] rounded-lg shadow">
             <div className="relative aspect-[4/5] w-full mb-4 overflow-hidden rounded">
-              <Image
-                src={data.profileImage.url}
-                alt={data.profileImage.altText}
-                fill
-                className="object-cover transition-transform duration-500 hover:scale-110"
-              />
+              {data.profileImage?.url && (
+                <Image
+                  src={data.profileImage.url}
+                  alt={data.profileImage.altText || data.fullName}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-110"
+                />
+              )}
               {/* <Spline scene="https://prod.spline.design/LfeE2bgt22eLnLLL/scene.splinecode" /> */}
             </div>
 
             <h4 className="text-center font-bold">
-              {data.profileImage.captionTitle}
+              {data?.profileImage?.captionTitle}
             </h4>
 
             <p className="text-center text-sm text-[var(--text-muted)]">
-              {data.profileImage.captionSubtitle}
+              {data?.profileImage?.captionSubtitle}
             </p>
           </TiltCard>
         </div>

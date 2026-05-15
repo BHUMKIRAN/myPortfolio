@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import { Smartphone, Globe, Layout, Database, Zap, Cpu } from "lucide-react";
-import getData from "@/service/Contentful";
+
 import TiltCard from "./animation/TiltCard";
-import FeaturesSkeleton from "./skeletons/features";
 
 /* ---------------- ICON MAPPER ---------------- */
 const iconMap: any = {
@@ -76,19 +75,7 @@ const CardDesign = ({ services }: any) => {
 };
 
 /* ---------------- MAIN COMPONENT ---------------- */
-const Features = () => {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      const hero = res?.fields?.features?.featuresSection;
-      setData(hero);
-    };
-    fetchData();
-  }, []);
-
-  if (!data) return <FeaturesSkeleton />;
+const Features = ({ data }) => {
   return (
     <section
       id="feature"

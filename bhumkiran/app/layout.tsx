@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Providers from "@/providers/QueryProvider"
+import Providers from "@/providers/QueryProvider";
 import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const siteName = "Bhum Kiran";
 const siteTitle = "Bhum Bikram Silwal kiran";
@@ -89,10 +89,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-NP" className={cn("h-full antialiased", "font-sans", geist.variable)}>
+    <html
+      lang="en-NP"
+      className={cn("h-full antialiased", "font-sans", geist.variable)}
+    >
       <body className="min-h-full bg-[var(--bg)] text-[var(--foreground)]">
         <Providers>
-           <div className="flex min-h-full flex-col">{children}</div>
+          <div className="flex min-h-full flex-col">{children}</div>
         </Providers>
       </body>
     </html>
