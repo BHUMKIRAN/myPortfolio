@@ -75,7 +75,7 @@ const CardDesign = ({ services }: any) => {
 };
 
 /* ---------------- MAIN COMPONENT ---------------- */
-const Features = ({ data }) => {
+const Features = ({ data }: { data: any }) => {
   return (
     <section
       id="feature"

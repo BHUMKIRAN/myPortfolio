@@ -2,8 +2,8 @@
 
 import React from "react";
 
-const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`bg-white/10 rounded-md animate-pulse ${className}`} />
+const Skeleton = () => (
+  <div className="bg-white/10 rounded-md animate-pulse" />
 );
 
 const BlogDetailSkeleton = () => {
@@ -15,22 +15,20 @@ const BlogDetailSkeleton = () => {
       <section className="max-w-5xl mx-auto py-30 px-6">
         {/* HEADER */}
         <div className="mb-10 text-center space-y-4">
-          <Skeleton className="h-4 w-40 mx-auto" />
-          <Skeleton className="h-10 w-3/4 mx-auto" />
-          <div className="flex justify-center">
-            <Skeleton className="h-4 w-24" />
-          </div>
+          <div className="h-4 w-40 mx-auto bg-white/10 animate-pulse rounded-md" />
+          <div className="h-10 w-3/4 mx-auto bg-white/10 animate-pulse rounded-md" />
+          <div className="h-4 w-24 mx-auto bg-white/10 animate-pulse rounded-md" />
         </div>
 
         {/* INTRO SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start py-10">
           {/* TEXT */}
           <div className="space-y-3">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-11/12" />
-            <Skeleton className="h-4 w-10/12" />
-            <Skeleton className="h-4 w-9/12" />
-            <Skeleton className="h-4 w-8/12" />
+            <div className="h-4 w-full bg-white/10 animate-pulse rounded-md" />
+            <div className="h-4 w-11/12 bg-white/10 animate-pulse rounded-md" />
+            <div className="h-4 w-10/12 bg-white/10 animate-pulse rounded-md" />
+            <div className="h-4 w-9/12 bg-white/10 animate-pulse rounded-md" />
+            <div className="h-4 w-8/12 bg-white/10 animate-pulse rounded-md" />
           </div>
 
           {/* CAROUSEL */}
@@ -48,20 +46,20 @@ const BlogDetailSkeleton = () => {
             >
               {/* LEFT TEXT */}
               <div className="space-y-4">
-                <Skeleton className="h-6 w-2/3" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-11/12" />
-                <Skeleton className="h-4 w-10/12" />
+                <div className="h-6 w-2/3 bg-white/10 animate-pulse rounded-md" />
+                <div className="h-4 w-full bg-white/10 animate-pulse rounded-md" />
+                <div className="h-4 w-11/12 bg-white/10 animate-pulse rounded-md" />
+                <div className="h-4 w-10/12 bg-white/10 animate-pulse rounded-md" />
               </div>
 
               {/* RIGHT CODE BLOCK */}
               <div className="border border-white/10 rounded-xl overflow-hidden">
                 <div className="h-8 bg-white/10 animate-pulse" />
                 <div className="p-4 space-y-2">
-                  <Skeleton className="h-3 w-full" />
-                  <Skeleton className="h-3 w-11/12" />
-                  <Skeleton className="h-3 w-10/12" />
-                  <Skeleton className="h-3 w-9/12" />
+                  <div className="h-3 w-full bg-white/10 animate-pulse rounded-md" />
+                  <div className="h-3 w-11/12 bg-white/10 animate-pulse rounded-md" />
+                  <div className="h-3 w-10/12 bg-white/10 animate-pulse rounded-md" />
+                  <div className="h-3 w-9/12 bg-white/10 animate-pulse rounded-md" />
                 </div>
               </div>
             </div>
@@ -70,7 +68,7 @@ const BlogDetailSkeleton = () => {
 
         {/* BUTTON */}
         <div className="flex justify-center mt-12">
-          <Skeleton className="h-10 w-40 rounded-full" />
+          <div className="h-10 w-40 bg-white/10 animate-pulse rounded-full" />
         </div>
       </section>
 

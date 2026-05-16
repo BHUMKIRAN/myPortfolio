@@ -5,12 +5,23 @@ import MyPortfolio from "@/components/MyPortfolio";
 import Navbar from "@/components/Navbar";
 import Resume from "@/components/Resume";
 import getData from "@/service/Contentful";
+import type { ComponentProps, ComponentType } from "react";
+import type { PortfolioContentfulEntry } from "@/types/contentful";
+
+type HeroData = ComponentProps<typeof HeroSection>["data"];
+type ResumeData = NonNullable<
+  NonNullable<PortfolioContentfulEntry["fields"]>["resume"]
+>["resumeSection"];
+
+const TypedResume = Resume as ComponentType<{ data: ResumeData | null }>;
+
 const page = async () => {
   const res = await getData();
-  const hero = res?.fields?.hero?.heroSection;
-  const portfolioSection = res?.fields?.projects?.portfolioSection;
-  const features = res?.fields?.features?.featuresSection;
-  const resume = res?.fields?.resume?.resumeSection;
+  const entry = res as unknown as PortfolioContentfulEntry | null | undefined;
+  const hero = entry?.fields?.hero?.heroSection as HeroData;
+  const portfolioSection = entry?.fields?.projects?.portfolioSection;
+  const features = entry?.fields?.features?.featuresSection;
+  const resume = entry?.fields?.resume?.resumeSection;
 
   return (
     <>
@@ -19,7 +30,7 @@ const page = async () => {
         <HeroSection data={hero ?? null} />
         <Features data={features ?? null} />
         <MyPortfolio data={portfolioSection ?? null} />
-        <Resume data={resume ?? null} />
+        <TypedResume data={resume ?? null} />
         <Footer />
       </main>
     </>

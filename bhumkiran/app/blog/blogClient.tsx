@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 // import { getBlogData } from "@/service/Contentful";
 import BlogSkeleton from "@/components/skeletons/blog";
 
-const Blog = ({ data }) => {
+const Blog = ({ data }: { data: any }) => {
   const router = useRouter();
 
   //   const { data, isLoading, isError } = useQuery({
@@ -33,24 +33,23 @@ const Blog = ({ data }) => {
   const subtitle = BlogData?.fields?.paragraph;
   const contents = BlogData?.fields?.contents || [];
 
+  // keep originalIndex so sorting doesn't break routing
   const contentData = contents
-    .map((card: any) => ({
+    .map((card: any, originalIndex: number) => ({
       image: `https:${card?.fields?.images[0]?.fields?.file?.url}`,
       title: card?.fields?.title,
       subtitle: card?.fields?.chips,
-      // subtitle: card?.fields?.subtitle,
-      // readTime: card?.fields?.readTime,
       paragraph: card?.fields?.paragraph,
       time: card?.fields?.time,
       formatted: formatDate(card?.fields?.time),
+      originalIndex,
     }))
     .sort((a: any, b: any) => {
       return new Date(b.time).getTime() - new Date(a.time).getTime();
     });
-  const handleClick = (index: number) => {
-    // const id = card.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    // router.push(`/blog/${id}`);
-    router.push(`/blog/${index}`);
+
+  const handleClick = (originalIndex: number) => {
+    router.push(`/blog/${originalIndex}`);
   };
 
   return (
@@ -76,7 +75,7 @@ const Blog = ({ data }) => {
               <div
                 key={index}
                 className="group bg-[var(--surface)] p-6 rounded-[var(--radius-lg)] shadow-[var(--shadow-neo)] hover:shadow-[var(--shadow-soft)] transition-all duration-300 cursor-pointer flex flex-col"
-                onClick={() => handleClick(index)}
+                onClick={() => handleClick(card.originalIndex)}
               >
                 {/* Image Container */}
                 <div className="overflow-hidden rounded-[var(--radius-md)] mb-6">

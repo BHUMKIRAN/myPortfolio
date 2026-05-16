@@ -112,12 +112,12 @@ const HeroSection = ({
         {/* LEFT CONTENT */}
         <div className="w-full max-w-2xl">
           <p className="text-xs tracking-[0.3em] text-[var(--text-muted)]">
-            {data.welcomeText}
+            {data?.welcomeText}
           </p>
 
           <h1 className="mt-4 text-4xl font-bold md:text-5xl lg:text-6xl">
             Hi, I'm{" "}
-            <span className="text-[var(--primary)]">{data.fullName}</span>
+            <span className="text-[var(--primary)]">{data?.fullName}</span>
             <br />a{" "}
             <span className="border-r-2 border-[var(--primary)] pr-1">
               {displayed}
@@ -125,7 +125,7 @@ const HeroSection = ({
           </h1>
 
           <p className="mt-6 text-[15px] text-[var(--text-muted)]">
-            {data.description}
+            {data?.description}
           </p>
 
           {/* BUTTONS */}
@@ -208,7 +208,7 @@ const HeroSection = ({
         <div className="w-[350px]">
           <TiltCard className="p-5 bg-[var(--surface)] rounded-lg shadow">
             <div className="relative aspect-[4/5] w-full mb-4 overflow-hidden rounded">
-              {data.profileImage?.url && (
+              {data?.profileImage?.url && (
                 <Image
                   src={data.profileImage.url}
                   alt={data.profileImage.altText || data.fullName}

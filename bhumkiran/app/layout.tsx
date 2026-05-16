@@ -76,7 +76,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
-  themeColor: "#f8005f",
+
 };
 export const viewport = {
   width: "device-width",
@@ -93,7 +93,7 @@ export default function RootLayout({
       lang="en-NP"
       className={cn("h-full antialiased", "font-sans", geist.variable)}
     >
-      <body className="min-h-full bg-[var(--bg)] text-[var(--foreground)]">
+      <body className="min-h-full " cz-shortcut-listen="true">
         <Providers>
           <div className="flex min-h-full flex-col">{children}</div>
         </Providers>

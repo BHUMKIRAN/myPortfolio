@@ -10,7 +10,7 @@ const BlogPage = async () => {
   // });
 
   const data = await getBlogData();
-  console.log(data);
+
 
   return (
     // <HydrationBoundary state={dehydrate(queryClient)}>

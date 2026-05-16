@@ -14,7 +14,6 @@ const ToolsPage = () => {
       <Navbar />
 
       <main className="flex-grow container mx-auto py-12 sm:py-16 lg:py-24 px-3 sm:px-4 max-w-6xl">
-        
         {/* HEADER */}
         <div className="mb-8 sm:mb-10">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[var(--text-primary)] tracking-tighter uppercase">
@@ -27,7 +26,6 @@ const ToolsPage = () => {
 
         {/* GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-
           <div className="flex flex-col">
             <ToolCard title="Playground.js" subtitle="Live_Compiler">
               <CodePlayground />
@@ -51,7 +49,6 @@ const ToolsPage = () => {
               <InteractiveTerminal />
             </ToolCard>
           </div>
-
         </div>
       </main>
 
@@ -66,12 +63,7 @@ export default ToolsPage;
    TOOL CARD (FIXED)
 ========================= */
 
-const ToolCard = ({
-  title,
-  subtitle,
-  children,
-  isHidden = false,
-}: any) => {
+const ToolCard = ({ title, subtitle, children, isHidden = false }: any) => {
   return (
     <div
       className={`group flex flex-col rounded-[var(--radius-sm)] bg-[var(--surface)] border border-white/5 overflow-hidden transition-all duration-300 hover:border-[var(--primary)]/40 ${
@@ -82,7 +74,6 @@ const ToolCard = ({
     >
       {/* HEADER */}
       <div className="px-3 py-2 border-b border-[var(--bg)] flex justify-between items-center bg-white/[0.02]">
-        
         <div className="flex items-center gap-3">
           {/* traffic dots */}
           <div className="flex gap-1">
@@ -105,9 +96,7 @@ const ToolCard = ({
 
       {/* CONTENT (NO INNER SCROLL ON MOBILE) */}
       <div className="flex-1">
-        <div className="p-3 sm:p-4">
-          {children}
-        </div>
+        <div className="p-3 sm:p-4">{children}</div>
       </div>
     </div>
   );

@@ -1,14 +1,41 @@
 import React from "react";
 import { getBlogData } from "@/service/Contentful";
 import BlogDetail from "./Client";
-const Id = async ({ params }) => {
-  const id = params?.id;
+import type { Metadata } from "next";
 
-  const data = await getBlogData();
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  const data: any = await getBlogData();
+
+  const parentBlog = data?.fields?.blogs?.[0] ?? null;
+  const contents = parentBlog?.fields?.contents ?? [];
+
+  const blog = contents[Number(id)] ?? null;
+
+  return {
+    title: blog?.fields?.title
+      ? `${blog.fields.title} | Bhum bikram silwal kiran`
+      : "Blog not found | Bhum bikram silwal kiran",
+  };
+}
+
+const Id = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+
+  const data: any = await getBlogData();
+  const parentBlog = data?.fields?.blogs?.[0] ?? null;
+  const contents = parentBlog?.fields?.contents ?? [];
+
+  const blog = contents[Number(id)] ?? null;
 
   return (
     <div>
-      <BlogDetail data={data} />
+      <BlogDetail blog={blog} />
     </div>
   );
 };

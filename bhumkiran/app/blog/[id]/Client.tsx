@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Clock, ArrowLeft, ExternalLink } from "lucide-react";
+import { Clock } from "lucide-react";
 
-import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -16,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import BlogDetailSkeleton from "@/components/skeletons/BlogDetailsSkeleton";
 
 function CarouselDemo({ x }: { x: string[] }) {
   return (
@@ -40,39 +38,7 @@ function CarouselDemo({ x }: { x: string[] }) {
     </Carousel>
   );
 }
-const BlogDetail = ({ data }) => {
-  const params = useParams();
-  const id = params?.id as string;
-  const [blog, setBlog] = useState<any>(null);
-
-  //   const { data, isLoading, isError } = useQuery({
-  //     queryKey: ["blog"],
-  //     queryFn: getBlogData,
-  //   });
-  const blogs = data?.fields?.blogs ?? [];
-  const BlogData = blogs[Number(id)] ?? null;
-  const contents = BlogData?.fields?.contents || [];
-
-  useEffect(() => {
-    // Ensure params.id exists and contents is an array
-    if (params?.id && Array.isArray(contents)) {
-      const index = parseInt(params.id as string, 10);
-
-      const foundBlog = contents[index];
-      setBlog(foundBlog || null);
-    }
-  }, [params?.id, contents]);
-
-  useEffect(() => {
-    if (blog && blog?.fields?.title) {
-      document.title = `${blog?.fields?.title} | Bhum bikram silwal kiran`;
-    } else if (!data && !blog) {
-      document.title = `Blog not found | Bhum bikram silwal kiran`;
-    } else {
-      document.title = `Bhum bikram silwal kiran`;
-    }
-  }, [blog, data]);
-
+const BlogDetail = ({ blog }: { blog: any }) => {
   const mapToline = (text: string | undefined) => {
     const lines = text?.split("\n") || [];
     return lines.map((line, index) => (
@@ -108,7 +74,7 @@ const BlogDetail = ({ data }) => {
   if (!blog) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Blog not found!
+        <BlogDetailSkeleton />
       </div>
     );
   }

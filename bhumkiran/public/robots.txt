@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.bhumkiran.com.np
+
+# Sitemaps
+Sitemap: https://www.bhumkiran.com.np/sitemap.xml

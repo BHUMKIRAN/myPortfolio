@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const Resume: React.FC = ({ data }) => {
+const Resume = ({ data }: { data: any }) => {
   const [activeTab, setActiveTab] = useState<string>("Education");
 
   const { header, tabs, data: resumeData } = data;
